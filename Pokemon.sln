@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pokemon", "Pokemon\Pokemon.vcxproj", "{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Debug|x64.ActiveCfg = Debug|x64
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Debug|x64.Build.0 = Debug|x64
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Debug|x86.ActiveCfg = Debug|Win32
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Debug|x86.Build.0 = Debug|Win32
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Release|x64.ActiveCfg = Release|x64
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Release|x64.Build.0 = Release|x64
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Release|x86.ActiveCfg = Release|Win32
+		{6E722A7A-8F9F-47CD-BD94-A6A0F1E87942}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {07A81782-0BB5-4CF2-B8D9-7A49F8A5F09A}
+	EndGlobalSection
+EndGlobal
