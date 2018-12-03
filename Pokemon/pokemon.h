@@ -109,6 +109,7 @@ public:
 	SKILL *Write_AllSkill();//返回修改所有技能列表的0位指针
 	PSKILL Access_GotSkill(int pos)const;//访问某个已经get到的技能
 	PSKILL *Write_GotSkill(int pos);//返回修改已获得技能列表的0位指针
+
 	void RefershRank();//用当前的精灵经验值更新等级信息
 	void PrintPetInfo();//打印宠物信息
 

@@ -115,13 +115,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="allPets.h" />
     <ClInclude Include="fight.h" />
     <ClInclude Include="pokemon.h" />
+    <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="allPets.cpp" />
     <ClCompile Include="fight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pokemon.cpp" />
+    <ClCompile Include="user.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
