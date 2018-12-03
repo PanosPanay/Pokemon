@@ -51,7 +51,7 @@ void FIGHT::A_VS_B()
 		<< Attacker->Get_Evasiveness() << endl;
 	cout << defenderName << ": " << "HP=" << Defender->Get_Hp() << ", Atk=" << Defender->Get_Atk()
 		<< ", Def=" << Defender->Get_Def() << ", Accuracy=" << Defender->Get_Accuracy() << ", Evasiveness="
-		<< Defender->Get_Evasiveness() << endl << endl;
+		<< Defender->Get_Evasiveness() << endl;
 	while (A.Get_Hp() > 0 && B.Get_Hp() > 0)
 	{
 		defenderName = Defender->Get_Name();
@@ -68,6 +68,7 @@ void FIGHT::A_VS_B()
 		//确定招式并输出
 		int theSkill = rand() % (Attacker->Get_GotSkillCnt());//随机选取一个招式，或者加一个开关，让用户选择招式？？？？？？？？？？？？
 		SKILL* theSkillPtr = Attacker->Access_GotSkill(theSkill);
+		cout << endl;
 		cout << "招式" << Aorder + Border << ":" << endl;
 		cout << attackName << "发动" << theSkillPtr->SkillName << endl;
 		//计算命中
@@ -87,14 +88,21 @@ void FIGHT::A_VS_B()
 			if (isHit <= theHitNum)//命中
 			{
 				//计算伤害
-				int hurt = ((Attacker->Get_Atk()) / (Attacker->Get_Def()))*(theSkillPtr->SkillPower)*(addition);
-				int theHp = Defender->Get_Hp();
+				/////////////////////////////////////测试输出
+				//cout <<"-----add="<<addition<< "------atk=" << Attacker->Get_Atk() << "------def=" << Defender->Get_Def() << "-------skillpower=" << theSkillPtr->SkillPower << endl;
+				double hurt = ((double)(Attacker->Get_Atk()) /(double) (Defender->Get_Def()))*(double)(theSkillPtr->SkillPower)*(addition);
+				double theHp = Defender->Get_Hp();
 				if (theHp > hurt)
+				{
 					theHp = theHp - hurt;
+					cout << "命中！" << defenderName << "受到" << hurt << "点伤害！" << endl;			
+				}					
 				else
+				{
 					theHp = 0;
+					cout << "致命一击！" << defenderName << "受到" << hurt << "点暴击！" << endl;
+				}
 				Defender->Input_Hp(theHp);
-				cout << "命中！" << defenderName << "受到" << hurt << "点伤害！" << endl;
 			}
 			else
 			{
@@ -104,7 +112,7 @@ void FIGHT::A_VS_B()
 		case REHP:
 			if (isHit <= theHitNum)//成功使用招式回血
 			{
-				int theHp = Attacker->Get_Hp();
+				double theHp = Attacker->Get_Hp();
 				theHp = theHp + theSkillPtr->SkillPower;
 				Attacker->Input_Hp(theHp);
 				cout << "成功回血！" << attackName << "生命值增加" << theSkillPtr->SkillPower << "点" << endl;
@@ -166,11 +174,13 @@ void FIGHT::A_VS_B()
 		}
 		//输出战斗双方当前属性值
 		cout << attackName << ": " << "HP=" << Attacker->Get_Hp() << ", Atk=" << Attacker->Get_Atk()
-			<< ", Def=" << Attacker->Get_Def() << ", Accuracy=" << Attacker->Get_Accuracy() << ", Evasiveness="
-			<< Attacker->Get_Evasiveness() << endl;
+			<< ", Def=" << Attacker->Get_Def() //<< ", Accuracy=" << Attacker->Get_Accuracy() << ", Evasiveness="
+			//<< Attacker->Get_Evasiveness() << endl;
+			<< endl;
 		cout << defenderName << ": " << "HP=" << Defender->Get_Hp() << ", Atk=" << Defender->Get_Atk()
-			<< ", Def=" << Defender->Get_Def() << ", Accuracy=" << Defender->Get_Accuracy() << ", Evasiveness="
-			<< Defender->Get_Evasiveness() << endl << endl;
+			<< ", Def=" << Defender->Get_Def() //<< ", Accuracy=" << Defender->Get_Accuracy() << ", Evasiveness="
+			//<< Defender->Get_Evasiveness() << endl << endl;
+			<< endl;
 		//设置几率降低精灵的命中率和闪避率
 		//下一个出招的精灵
 		if (((Aorder + 1)*A.Get_AtkI()) < ((Border + 1)*B.Get_AtkI()))
@@ -188,6 +198,7 @@ void FIGHT::A_VS_B()
 		//Sleep(SleepTime);///////////////////////////////////////////////
 	}
 	//战斗后增加宠物小精灵的经验
+	cout << endl;
 	if (A.Get_Hp() > 0)//A赢
 	{
 		int nowExp = A.Get_Exp();

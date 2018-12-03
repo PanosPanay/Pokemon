@@ -33,15 +33,36 @@ int main()
 	int B=1;
 	while (A != 0)
 	{
-		cout << endl << "输入你想要进行战斗的第1只宠物(键入0退出）：" << endl;
-		int A;
-		int B;
+		cout << endl << "输入你想要进行战斗的第1只宠物(键入0退出，9查询宠物信息）：" << endl;
 		POKEMON *pet1=nullptr;
 		POKEMON *pet2=nullptr;
 		cin >> A;
 		while (A < 0 || A>8)
 		{
-			cout << "错误输入！请重新输入：";
+			if (A == 9)//输出宠物信息
+			{
+				cout << "1、";
+				gyarados1.PrintPetInfo();
+				cout << endl << "2、";
+				happiny1.PrintPetInfo();
+				cout << endl << "3、";
+				squirtle1.PrintPetInfo();
+				cout << endl << "4、";
+				mewtwo1.PrintPetInfo();
+				cout << endl << "5、";
+				incineroar1.PrintPetInfo();
+				cout << endl << "6、";
+				wobbufffet1.PrintPetInfo();
+				cout << endl << "7、";
+				steelix1.PrintPetInfo();
+				cout << endl << "8、";
+				alakazam1.PrintPetInfo();
+				cout << endl << "输入你想要进行战斗的第1只宠物(键入0退出，9查询宠物信息）：" << endl;
+			}
+			else
+			{
+				cout << "错误输入！请重新输入：";
+			}				
 			cin >> A;
 		}
 		if (A != 0)

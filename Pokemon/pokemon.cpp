@@ -42,7 +42,7 @@ POKEMON::POKEMON()
 }
 
 POKEMON::POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-	int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+	int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 	WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 {
 	Kind = xkind;
@@ -156,7 +156,7 @@ void POKEMON::Input_Hp(int xhp)
 	Hp = xhp;
 }
 
-int POKEMON::Get_Hp()const
+double POKEMON::Get_Hp()const
 {
 	return Hp;
 }
@@ -289,22 +289,41 @@ void POKEMON::RefershRank()
 
 void POKEMON::PrintPetInfo()
 {
-	cout << Name << "   Nick:" << Nick << endl;
-	cout << "Kind:" << Kind;
-	cout << " , Type:" << wType;
-	cout << " , Rank:" << Rank;
-	cout << " , Exp:" << Exp << endl;
-	cout << " , Atk:" << Atk;
-	cout << " , Def:" << Def;
-	cout << " , Hp:" << Hp;
-	cout << " , AtkI:" << AtkInterval << endl;
-	cout << " , Accuracy:" << Accuracy;
-	cout << " , Evasiveness:" << Evasiveness << endl;
+	cout << Name << endl;//<< "   Nick:" << Nick << endl;
+	cout << "种族:";
+	if (Kind == POWER)
+		cout << "力量型\t";
+	else if (Kind == TANK)
+		cout << "肉盾型\t";
+	else if (Kind == DEFENSIVE)
+		cout << "防御型\t";
+	else if (Kind == AGILE)
+		cout << "敏捷型\t";
+	cout << "五行属性:";
+	if (wType == SHUI)
+		cout << "水\t";
+	else if (wType == HUO)
+		cout << "火\t";
+	else if (wType == JIN)
+		cout << "金\t";
+	else if (wType == MU)
+		cout << "木\t";
+	else if (wType == TU)
+		cout << "土\t";
+	cout << "等级:" << Rank;
+	cout << "\t经验值:" << Exp << endl;
+	cout << "攻击:" << Atk;
+	cout << "\t防御:" << Def;
+	cout << "\t血量:" << Hp;
+	cout << "\t攻击间隔:" << AtkInterval << endl;
+	//cout << "命中率:" << Accuracy;
+	//cout << "闪避率:" << Evasiveness << endl;
 	cout << "习得技能：" << endl;
 	for (int i = 0; i < GotSkillCnt; ++i)
 	{
 		cout << GotSkills[i]->SkillName;
-		cout << "   ";
+		//cout << "   ";
+		cout << endl;
 	}
 	cout << endl;
 }
@@ -325,7 +344,7 @@ POWERPET::POWERPET():POKEMON()
 }
 
 POWERPET::POWERPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
-	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
+	int xatk, int xdef, double xhp, int xatki, double xaccuracy,
 	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 	:POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
@@ -343,7 +362,7 @@ TANKPET::TANKPET():POKEMON()
 }
 
 TANKPET::TANKPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
-	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
+	int xatk, int xdef, double xhp, int xatki, double xaccuracy,
 	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
@@ -361,7 +380,7 @@ DEFENSIVEPET::DEFENSIVEPET() :POKEMON()
 }
 
 DEFENSIVEPET::DEFENSIVEPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
-	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
+	int xatk, int xdef, double xhp, int xatki, double xaccuracy,
 	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
@@ -377,7 +396,7 @@ AGILEPET::AGILEPET() :POKEMON()
 }
 
 AGILEPET::AGILEPET(POKEMONKIND xkind, string xname, int xrank, int xexp,
-	int xatk, int xdef, int xhp, int xatki, double xaccuracy,
+	int xatk, int xdef, double xhp, int xatki, double xaccuracy,
 	double xevasiveness, WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt)
 	: POKEMON(xkind, xname, xrank, xexp, xatk, xdef, xhp, xatki, xaccuracy, xevasiveness, xtype, xskillcnt, xnick, xallSkillcnt)
 {
@@ -422,17 +441,18 @@ void GYARADOS::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	//if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("暴鲤龙Gyarados");
 		cout << "进化为" << "暴鲤龙Gyarados !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("超级暴鲤龙Super Gyarados");
 		cout << "进化为" << "超级暴鲤龙Super Gyarados !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -465,14 +485,18 @@ void GYARADOS::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt()-1)+1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
+		//cout << learnSkill << endl;/////////////////////////////////////////
+		//cout << learnSkillCnt << endl;//////////////////////////////////////
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -491,6 +515,7 @@ void GYARADOS::SkillAll()
 	theSkillPtr->SkillKind = ATTACK;
 	theSkillPtr->SkillPower = 40;
 	theSkillPtr->SkillHit = 100;
+	++AllSkillCnt;
 	//第1个技能：龙之舞，提升自身攻击力
 	++theSkillPtr;
 	theSkillPtr->SkillName = "龙之舞Dragon Dance";
@@ -500,6 +525,7 @@ void GYARADOS::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：求雨，恢复部分生命值
+	++theSkillPtr;
 	theSkillPtr->SkillName = "求雨Rain Dance";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -507,6 +533,7 @@ void GYARADOS::SkillAll()
 	theSkillPtr->SkillHit = 50;
 	++AllSkillCnt;
 	//第0个技能：龙之怒，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "龙之怒Dragon Rage";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -514,6 +541,7 @@ void GYARADOS::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：瞪眼，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "瞪眼Leer";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -521,6 +549,7 @@ void GYARADOS::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：水炮，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "水炮Hydro Pump";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -564,17 +593,17 @@ void HAPPINY::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("吉利蛋Chansey");
 		cout << "进化为" << "吉利蛋Chansey !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("幸福蛋Blissey");
 		cout << "进化为" << "幸福蛋Blissey !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -607,14 +636,16 @@ void HAPPINY::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -643,6 +674,7 @@ void HAPPINY::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：生蛋，恢复部分生命值
+	++theSkillPtr;
 	theSkillPtr->SkillName = "生蛋Soft-Boiled";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -650,6 +682,7 @@ void HAPPINY::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：猛撞，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "猛撞Take Down";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -657,6 +690,7 @@ void HAPPINY::SkillAll()
 	theSkillPtr->SkillHit = 85;
 	++AllSkillCnt;
 	//第4个技能：天使之吻，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "天使之吻Sweet Kiss";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -664,6 +698,7 @@ void HAPPINY::SkillAll()
 	theSkillPtr->SkillHit = 80;
 	++AllSkillCnt;
 	//第5个技能：连环巴掌，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "连环巴掌Double Slap";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -707,17 +742,17 @@ void SQUIRTLE::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("卡咪龟Wartortle");
 		cout << "进化为" << "卡咪龟Wartortle !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("水箭龟Blastoise");
 		cout << "进化为" << "水箭龟Blastoise !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -750,14 +785,16 @@ void SQUIRTLE::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -786,6 +823,7 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：睡觉，恢复部分生命值
+	++theSkillPtr;
 	theSkillPtr->SkillName = "睡觉Rest";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -793,6 +831,7 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：泰山压顶，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "泰山压顶Body Slam";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -800,6 +839,7 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：冰冻光束，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "冰冻光束Ice Beam";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -807,6 +847,7 @@ void SQUIRTLE::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：打鼾，攻击型技能(打鼾噪声攻击）
+	++theSkillPtr;
 	theSkillPtr->SkillName = "打鼾Snore";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -850,17 +891,17 @@ void MEWTWO::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("超梦Mewtwo");
 		cout << "进化为" << "超梦Mewtwo !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("超级超梦y MewtwoY");
 		cout << "进化为" << "超级超梦y MewtwoY !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -893,14 +934,16 @@ void MEWTWO::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -929,6 +972,7 @@ void MEWTWO::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：自我再生，恢复部分生命值
+	++theSkillPtr;
 	theSkillPtr->SkillName = "自我再生Recover";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -936,6 +980,7 @@ void MEWTWO::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：精神强念，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "精神强念Psychic";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -943,6 +988,7 @@ void MEWTWO::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：白雾，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "白雾";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -950,6 +996,7 @@ void MEWTWO::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：精神击破，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "精神击破Psystrike";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -993,17 +1040,17 @@ void INCINEROAR::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("炎热喵Torracat");
 		cout << "进化为" << "炎热喵Torracat !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("炽焰咆啸虎Incineroar");
 		cout << "进化为" << "炽焰咆啸虎Incineroar !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -1036,14 +1083,16 @@ void INCINEROAR::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -1072,6 +1121,7 @@ void INCINEROAR::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：火花，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "火花Ember";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -1079,6 +1129,7 @@ void INCINEROAR::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：DD金勾臂，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "DD金勾臂Darkest Lariat";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1086,6 +1137,7 @@ void INCINEROAR::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：舌舔，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "舌舔Lick";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -1093,6 +1145,7 @@ void INCINEROAR::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：闪焰冲锋，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "闪焰冲锋Flare Blitz";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1136,12 +1189,12 @@ void WOBBUFFET::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 8)
+	if (currentRank == 8)
 	{
 		Input_Name("果然翁Wobbuffet");
 		cout << "进化为" << "果然翁Wobbuffet !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -1174,14 +1227,16 @@ void WOBBUFFET::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -1210,6 +1265,7 @@ void WOBBUFFET::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：躺赢，恢复部分HP
+	++theSkillPtr;
 	theSkillPtr->SkillName = "躺赢Lie Win";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -1217,6 +1273,7 @@ void WOBBUFFET::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：镜面反射，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "镜面反射Mirror Coat";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1224,6 +1281,7 @@ void WOBBUFFET::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：撒娇，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "撒娇Charm";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -1231,6 +1289,7 @@ void WOBBUFFET::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：抓狂，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "抓狂Crazy";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1274,17 +1333,17 @@ void STEELIX::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("大钢蛇Steelix");
 		cout << "进化为" << "大钢蛇Steelix !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("超级大钢蛇Super Steelix");
 		cout << "进化为" << "超级大钢蛇Super Steelix !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -1317,14 +1376,16 @@ void STEELIX::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -1353,6 +1414,7 @@ void STEELIX::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：玩泥巴，恢复部分HP
+	++theSkillPtr;
 	theSkillPtr->SkillName = "玩泥巴Mud Sport";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -1360,6 +1422,7 @@ void STEELIX::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：落石，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "落石Rock Throw";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1367,6 +1430,7 @@ void STEELIX::SkillAll()
 	theSkillPtr->SkillHit = 90;
 	++AllSkillCnt;
 	//第4个技能：诅咒，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "诅咒Curse";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -1374,6 +1438,7 @@ void STEELIX::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：铁尾，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "铁尾Iron Tail";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1417,17 +1482,17 @@ void ALAKAZAM::Upgrade()
 	srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
-	if (currentRank >= 6)
+	if (currentRank == 6)
 	{
 		Input_Name("勇基拉Kadabra");
 		cout << "进化为" << "勇基拉Kadabra !" << endl;
 	}
-	else if (currentRank >= 11)
+	else if (currentRank == 11)
 	{
 		Input_Name("胡地Alakazam");
 		cout << "进化为" << "胡地Alakazam !" << endl;
 	}
-	int currentHp = Get_Hp();
+	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
 	int currentAtk = Get_Atk();
 	int currentDef = Get_Def();
@@ -1460,14 +1525,16 @@ void ALAKAZAM::Upgrade()
 	int learnSkill = rand() % 10;
 	if (learnSkill >= 5 && Get_GotSkillCnt() < Get_ALLSkillCnt())//学到新技能
 	{
-		learnSkill = rand() % Get_ALLSkillCnt();
-		while ((Access_AllSkill() + learnSkill)->Selected == OWNED)
+		learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+		PSKILL nextSkill = Write_AllSkill() + learnSkill;
+		while (nextSkill->Selected == OWNED)
 		{
-			learnSkill = rand() % Get_ALLSkillCnt();
+			learnSkill = rand() % (Get_ALLSkillCnt() - 1) + 1;//跳过第一个初始技能
+			nextSkill = Write_AllSkill() + learnSkill;
 		}
 		int learnSkillCnt = Get_GotSkillCnt();
 		PSKILL* newSkill = Write_GotSkill(learnSkillCnt);
-		*newSkill = Write_AllSkill() + learnSkill;
+		*newSkill = nextSkill;
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
@@ -1496,6 +1563,7 @@ void ALAKAZAM::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第2个技能：自我再生，恢复部分HP
+	++theSkillPtr;
 	theSkillPtr->SkillName = "自我再生Recover";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = REHP;
@@ -1503,6 +1571,7 @@ void ALAKAZAM::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第3个技能：精神利刃，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "精神利刃Psycho Cut";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;
@@ -1510,6 +1579,7 @@ void ALAKAZAM::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第4个技能：定身法，降低对手防御力
+	++theSkillPtr;
 	theSkillPtr->SkillName = "定身法Disable";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = OPPDEFEENCE;
@@ -1517,6 +1587,7 @@ void ALAKAZAM::SkillAll()
 	theSkillPtr->SkillHit = 100;
 	++AllSkillCnt;
 	//第5个技能：预知未来，攻击型技能
+	++theSkillPtr;
 	theSkillPtr->SkillName = "预知未来Future Sight";
 	theSkillPtr->SkillRank = 1;
 	theSkillPtr->SkillKind = ATTACK;

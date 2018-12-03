@@ -55,7 +55,7 @@ private:
 	string Name;//名字
 	int Rank=1;//等级:每个精灵初始等级为1，满级15
 	int Exp;//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
-	int	Hp;//生命值
+	double	Hp;//生命值
 	int	AtkInterval;//攻击间隔：单位为10^-1s
 	//伤害=（（2*等级+10）/250*攻击方攻击力/防御方防御力*技能威力+2）*加成  加成由属性相克造成
 	int Atk;//攻击力：攻击力高的精灵使用物理招式的伤害多
@@ -73,7 +73,7 @@ private:
 public:
 	POKEMON();//默认构造函数
 	POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk, 
-		int xdef, int xhp, int xatki,double xaccuracy,double xevasiveness,
+		int xdef, double xhp, int xatki,double xaccuracy,double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);//赋值构造函数
 	POKEMON(const POKEMON &PET);//拷贝构造函数
 	~POKEMON();
@@ -90,7 +90,7 @@ public:
 	void Input_Def(int xdef);
 	int Get_Def()const;
 	void Input_Hp(int xhp);
-	int Get_Hp()const;
+	double Get_Hp()const;
 	void Input_AtkI(int xatki);
 	int Get_AtkI()const;
 	void Input_Accuracy(double xaccuracy);
@@ -123,7 +123,7 @@ class POWERPET :public POKEMON{
 public:
 	POWERPET();
 	POWERPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
 	POWERPET(const POWERPET& PET);
 
@@ -133,7 +133,7 @@ class TANKPET :public POKEMON{
 public:
 	TANKPET();
 	TANKPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
 	TANKPET(const TANKPET& PET);
 
@@ -143,7 +143,7 @@ class DEFENSIVEPET :public POKEMON{
 public:
 	DEFENSIVEPET();
 	DEFENSIVEPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
 	DEFENSIVEPET(const DEFENSIVEPET& PET);
 
@@ -153,7 +153,7 @@ class AGILEPET :public POKEMON{
 public:
 	AGILEPET();
 	AGILEPET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);
 	AGILEPET(const AGILEPET& PET);
 
@@ -167,7 +167,7 @@ class GYARADOS :public POWERPET {
 public:
 	GYARADOS();
 	/*GYARADOS(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	GYARADOS(const GYARADOS& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -178,7 +178,7 @@ class HAPPINY :public TANKPET {
 public:
 	HAPPINY();
 	/*HAPPINY(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	HAPPINY(const HAPPINY& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -191,7 +191,7 @@ class SQUIRTLE :public DEFENSIVEPET{
 public:
 	SQUIRTLE();
 	/*SQUIRTLE(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	SQUIRTLE(const SQUIRTLE& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -202,7 +202,7 @@ class  MEWTWO :public AGILEPET {
 public:
 	MEWTWO();
 	/*MEWTWO(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	MEWTWO(const MEWTWO& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -213,7 +213,7 @@ class INCINEROAR :public POWERPET {
 public:
 	INCINEROAR();
 	/*INCINEROAR(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	INCINEROAR(const INCINEROAR& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -225,7 +225,7 @@ class WOBBUFFET :public TANKPET {
 public:
 	WOBBUFFET();
 	/*WOBBUFFET(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	WOBBUFFET(const WOBBUFFET& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -236,7 +236,7 @@ class STEELIX :public DEFENSIVEPET {
 public:
 	STEELIX();
 	/*STEELIX(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	STEELIX(const STEELIX& PET);
 	virtual void Upgrade();//升级函数（虚函数）
@@ -247,7 +247,7 @@ class ALAKAZAM :public AGILEPET {
 public:
 	ALAKAZAM();
 	/*ALAKAZAM(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
-		int xdef, int xhp, int xatki, double xaccuracy, double xevasiveness,
+		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	ALAKAZAM(const ALAKAZAM& PET);
 	virtual void Upgrade();//升级函数（虚函数）
