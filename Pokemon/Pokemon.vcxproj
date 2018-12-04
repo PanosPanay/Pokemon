@@ -118,6 +118,8 @@
     <ClInclude Include="allPets.h" />
     <ClInclude Include="fight.h" />
     <ClInclude Include="pokemon.h" />
+    <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="sqlite3ext.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <ItemGroup>
@@ -125,6 +127,8 @@
     <ClCompile Include="fight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pokemon.cpp" />
+    <ClCompile Include="shell.c" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

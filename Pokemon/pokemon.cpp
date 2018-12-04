@@ -151,7 +151,7 @@ int POKEMON::Get_Def()const
 	return Def;
 }
 
-void POKEMON::Input_Hp(int xhp)
+void POKEMON::Input_Hp(double xhp)
 {
 	Hp = xhp;
 }
@@ -506,7 +506,7 @@ void GYARADOS::Upgrade()
 
 void GYARADOS::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：龙卷风，攻击型技能
@@ -655,7 +655,7 @@ void HAPPINY::Upgrade()
 
 void HAPPINY::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：炸蛋，攻击型技能
@@ -804,7 +804,7 @@ void SQUIRTLE::Upgrade()
 
 void SQUIRTLE::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr= Write_AllSkill();
 	//第0个技能：高速旋转，攻击型技能
@@ -953,7 +953,7 @@ void MEWTWO::Upgrade()
 
 void MEWTWO::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：精神利刃，攻击型技能
@@ -1102,7 +1102,7 @@ void INCINEROAR::Upgrade()
 
 void INCINEROAR::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：喷射火焰，攻击型技能
@@ -1246,7 +1246,7 @@ void WOBBUFFET::Upgrade()
 
 void WOBBUFFET::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：跃起，攻击型技能
@@ -1395,7 +1395,7 @@ void STEELIX::Upgrade()
 
 void STEELIX::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：绑紧，攻击型技能
@@ -1544,7 +1544,7 @@ void ALAKAZAM::Upgrade()
 
 void ALAKAZAM::SkillAll()
 {
-	int therank;
+	//int therank;
 	int AllSkillCnt = 0;
 	SKILL *theSkillPtr = Write_AllSkill();
 	//第0个技能：幻想光线，攻击型技能

@@ -72,7 +72,7 @@ void FIGHT::A_VS_B()
 		cout << "招式" << Aorder + Border << ":" << endl;
 		cout << attackName << "发动" << theSkillPtr->SkillName << endl;
 		//计算命中
-		int theHitNum = (theSkillPtr->SkillHit)*(Attacker->Get_Accuracy())*(1 - (Defender->Get_Evasiveness())) * 100;
+		double theHitNum = (theSkillPtr->SkillHit)*(Attacker->Get_Accuracy())*(1 - (Defender->Get_Evasiveness())) * 100;
 		int isHit = rand() % 100 + 1;
 		double addition = 1;//加成，属性相克
 		switch (theSkillPtr->SkillKind)

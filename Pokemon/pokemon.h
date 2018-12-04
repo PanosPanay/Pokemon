@@ -4,6 +4,7 @@
 #include<string>
 #include<windows.h>
 #include<time.h>
+#include"sqlite3.h"
 using namespace std;
 //const int SKILL_NUM = 20;//设定一个精灵可以拥有的技能数上限为20
 //const int MIN_ATKI = 10;//设定最低攻击间隔，单位为10^-1s
@@ -35,13 +36,14 @@ enum OWN
 //技能招式类
 class SKILL {
 public:
-	string SkillName;//技能名称
-	int SkillRank=1;//技能等级
-	SKILLKIND SkillKind;//技能种类。攻击or防御
-	int SkillPower;//技能威力
-	int SkillHit;//技能命中
+	string SkillName;				//技能名称
+	int SkillRank=1;				//技能等级
+	SKILLKIND SkillKind;			//技能种类。攻击or防御
+	int SkillPower;					//技能威力
+	int SkillHit;					//技能命中
 	//int SkillPP;//Power Point招式点数，剩余可使用该招式的次数
-	OWN Selected=NOTOWN;
+	OWN Selected=NOTOWN;			//技能是否已习得
+
 	SKILL();
 	SKILL(string sname, int srank, SKILLKIND skind, int spower, int shit);
 	SKILL(const SKILL &SK);
@@ -51,24 +53,24 @@ typedef SKILL * PSKILL;
 //宠物基类
 class POKEMON {
 private:
-	POKEMONKIND	Kind;//种类
-	string Name;//名字
-	int Rank=1;//等级:每个精灵初始等级为1，满级15
-	int Exp;//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
-	double	Hp;//生命值
-	int	AtkInterval;//攻击间隔：单位为10^-1s
+	POKEMONKIND	Kind;				//种类
+	string Name;					//名字
+	int Rank=1;						//等级:每个精灵初始等级为1，满级15
+	int Exp;						//经验值，战斗获得，先是100升一级，每升一级后都要多100才能升级，100，200，300.。。。
+	double	Hp;						//生命值
+	int	AtkInterval;				//攻击间隔：单位为10^-1s
 	//伤害=（（2*等级+10）/250*攻击方攻击力/防御方防御力*技能威力+2）*加成  加成由属性相克造成
-	int Atk;//攻击力：攻击力高的精灵使用物理招式的伤害多
-	int Def;//防御力：防御力高的精灵受到物理招式的伤害少
+	int Atk;						//攻击力：攻击力高的精灵使用物理招式的伤害多
+	int Def;						//防御力：防御力高的精灵受到物理招式的伤害少
 	//命中判定：A=招式的命中*攻击方命中率*(1-防御方回避率)。产生一个1～255之间的随机数，该随机数小于A时视为命中，否则为失误。
-	double Accuracy;//命中率：命中率越高招式越容易命中
-	double Evasiveness;//闪避率：闪避率越高，受到的招式越不容易命中
-	WUXINGTYPE wType;//五行属性
-	SKILL AllSkills[20];//所有技能列表
-	PSKILL GotSkills[20];//已获得的技能列表，指向所有技能列表中相应的技能
+	double Accuracy;				//命中率：命中率越高招式越容易命中
+	double Evasiveness;				//闪避率：闪避率越高，受到的招式越不容易命中
+	WUXINGTYPE wType;				//五行属性
+	SKILL AllSkills[20];			//所有技能列表
+	PSKILL GotSkills[20];			//已获得的技能列表，指向所有技能列表中相应的技能
 	int AllSkillCnt;
-	int GotSkillCnt;//当前已获得的技能数//是不是应该弄成public方便点//修改成指针？？？
-	string Nick;//昵称
+	int GotSkillCnt;				//当前已获得的技能数//是不是应该弄成public方便点//修改成指针？？？
+	string Nick;					//昵称
 
 public:
 	POKEMON();//默认构造函数
@@ -89,7 +91,7 @@ public:
 	int Get_Atk()const;
 	void Input_Def(int xdef);
 	int Get_Def()const;
-	void Input_Hp(int xhp);
+	void Input_Hp(double xhp);
 	double Get_Hp()const;
 	void Input_AtkI(int xatki);
 	int Get_AtkI()const;
@@ -254,3 +256,5 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
+
+static int callback(void *NotUsed, int argc, char **argv, char **azColName);
