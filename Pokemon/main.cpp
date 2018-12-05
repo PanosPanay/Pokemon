@@ -22,11 +22,11 @@ void CreatTable()
 	/* Open database */
 	rc = sqlite3_open("pokemon.db", &db);
 	if (rc) {
-		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		fprintf(stderr, "Can't open database pokemon.db: %s\n", sqlite3_errmsg(db));
 		exit(0);
 	}
 	else {
-		fprintf(stdout, "Opened database successfully\n");
+		fprintf(stdout, "Opened database pokemon.db successfully\n");
 	}
 
 	//创建用户表
