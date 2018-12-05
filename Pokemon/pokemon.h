@@ -107,16 +107,16 @@ public:
 	int Get_ALLSkillCnt()const;
 	void Input_Nick(string xnick);
 	string Get_Nick()const;
-	const SKILL *Access_AllSkill()const;//返回访问所有技能列表的0位指针
-	SKILL *Write_AllSkill();//返回修改所有技能列表的0位指针
-	PSKILL Access_GotSkill(int pos)const;//访问某个已经get到的技能
-	PSKILL *Write_GotSkill(int pos);//返回修改已获得技能列表的0位指针
+	const SKILL *Access_AllSkill()const;			//返回访问所有技能列表的0位指针
+	SKILL *Write_AllSkill();						//返回修改所有技能列表的0位指针
+	PSKILL Access_GotSkill(int pos)const;			//访问某个已经get到的技能
+	PSKILL *Write_GotSkill(int pos);				//返回修改已获得技能列表的0位指针
 
-	void RefershRank();//用当前的精灵经验值更新等级信息
-	void PrintPetInfo();//打印宠物信息
+	void RefershRank();								//用当前的精灵经验值更新等级信息
+	void PrintPetInfo();							//打印宠物信息
 
-	virtual void Upgrade();//升级函数（虚函数）
-	//virtual void SkillAll();//存入该类小精灵的所有技能
+	virtual void Upgrade();							//升级函数（虚函数）
+	//virtual void SkillAll();						//存入该类小精灵的所有技能
 };
 
 //-----------------------------------------------------------------------------------------
@@ -256,5 +256,3 @@ public:
 	virtual void Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
-
-static int callback(void *NotUsed, int argc, char **argv, char **azColName);

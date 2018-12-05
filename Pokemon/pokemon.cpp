@@ -411,6 +411,7 @@ AGILEPET::AGILEPET(const AGILEPET & PET) : POKEMON(PET)
 GYARADOS::GYARADOS() : POWERPET()
 {
 	Input_Name("鲤鱼王Magikarp");//鲤鱼王
+	Input_Nick("鲤鱼王");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(95);
@@ -563,6 +564,7 @@ void GYARADOS::SkillAll()
 HAPPINY::HAPPINY() : TANKPET()
 {
 	Input_Name("小福蛋Happiny");
+	Input_Nick("小福蛋");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(255);
@@ -712,6 +714,7 @@ void HAPPINY::SkillAll()
 SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
 {
 	Input_Name("杰尼龟Squirtle");
+	Input_Nick("杰尼龟");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(79);
@@ -861,6 +864,7 @@ void SQUIRTLE::SkillAll()
 MEWTWO::MEWTWO() : AGILEPET()
 {
 	Input_Name("超梦x MewtwoX");
+	Input_Nick("超梦x");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(106);
@@ -1010,6 +1014,7 @@ void MEWTWO::SkillAll()
 INCINEROAR::INCINEROAR() : POWERPET()
 {
 	Input_Name("火斑喵Litten");
+	Input_Nick("火斑喵");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(95);
@@ -1159,6 +1164,7 @@ void INCINEROAR::SkillAll()
 WOBBUFFET::WOBBUFFET() : TANKPET()
 {
 	Input_Name("小果然Wynaut");
+	Input_Nick("小果然");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(190);
@@ -1303,6 +1309,7 @@ void WOBBUFFET::SkillAll()
 STEELIX::STEELIX() : DEFENSIVEPET()
 {
 	Input_Name("大岩蛇Onix");
+	Input_Nick("大岩蛇");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(75);
@@ -1452,6 +1459,7 @@ void STEELIX::SkillAll()
 ALAKAZAM::ALAKAZAM() : AGILEPET()
 {
 	Input_Name("凯西Abra");
+	Input_Nick("凯西");
 	Input_Rank(1);
 	Input_Exp(0);////////////经验值初始为0
 	Input_Hp(55);

@@ -2,6 +2,7 @@
 #include "pokemon.h"
 #include "fight.h"
 #include "allPets.h"
+#include "string"
 const int PETMAX = 8;//用户可以拥有的宠物上限
 enum BADGE {							//高级宠物徽章
 	GOLDEN,SLIVERN,CUPREOUS,NONE
@@ -32,4 +33,5 @@ public:
 	void UpdateUser();								//更新数据库中的用户信息
 	void InsertPet();								//在宠物数据库中插入用户宠物
 	void UpdatePet();								//更新数据库中的宠物信息
+	void FillInfo_from_Sqlite();					//从数据库中填入用户数据到类
 };
