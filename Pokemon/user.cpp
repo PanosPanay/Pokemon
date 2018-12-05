@@ -4,8 +4,9 @@ USER::USER()
 {
 	//userName=
 	//passWord=
+	nick = userName;//默认等于用户名
 	petNum = 0;
-	winRate = 0;
+	//winRate = 0;
 	//2个徽章
 	/////////////注册成功后再随机发放3只精灵
 }
@@ -30,6 +31,16 @@ void USER::Input_PassWord(string upw)
 	passWord = upw;
 }
 
+string USER::Get_Nick() const
+{
+	return nick;
+}
+
+void USER::Input_Nick(string unick)
+{
+	nick = unick;
+}
+
 int USER::Get_PetNum() const
 {
 	return petNum;
@@ -40,16 +51,82 @@ void USER::Input_PetNum(int pnum)
 	petNum = pnum;
 }
 
+int USER::Get_AdvNum() const
+{
+	int advNum = 0;
+	for (int i = 0; i < petNum; ++i)
+	{
+		if (pets[i]->Get_Rank() >= 15)
+			++advNum;
+	}
+	return advNum;
+}
+
+int USER::Get_FightTime() const
+{
+	return fightTime;
+}
+
+void USER::Input_FightTime(int uftime)
+{
+	fightTime = uftime;
+}
+
+int USER::Get_WinTime() const
+{
+	return winTime;
+}
+
+void USER::Input_WinTime(int uwintime)
+{
+	winTime = uwintime;
+}
+
+double USER::Get_WinRate() const
+{
+	double winRate;
+	winRate = (double)winTime / (double)fightTime;
+	return winRate;
+}
+
+BADGE USER::Get_PetNumBadge() const
+{
+	BADGE numBadge;
+	if (petNum < 3)
+		numBadge = NONE;
+	else if (petNum >= 3 && petNum < 5)
+		numBadge = CUPREOUS;
+	else if (petNum >= 5 && petNum < 8)
+		numBadge = SLIVERN;
+	else
+		numBadge = GOLDEN;
+	return numBadge;
+}
+
+BADGE USER::Get_AdvBadge() const
+{
+	int AdvNum = Get_AdvNum();
+	BADGE advBadge;
+	if (AdvNum < 1)
+		advBadge = NONE;
+	else if (AdvNum >= 1 && AdvNum < 3)
+		advBadge = CUPREOUS;
+	else if (AdvNum >= 3 && AdvNum < 5)
+		advBadge = SLIVERN;
+	else
+		advBadge = GOLDEN;
+	return advBadge;
+}
+
+
 const POKEMON * USER::ReadPets(int order) const
 {
-	const POKEMON* aPet = pets + order;
-	return aPet;
+	return pets[order];
 }
 
 POKEMON * USER::WritePets(int order)
 {
-	POKEMON* aPet = pets + order;
-	return aPet;
+	return pets[order];
 }
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -67,8 +144,34 @@ void USER::InitialPets()//初始送出3只精灵
 	{
 		srand((unsigned)time(NULL));
 		int random = rand() % PETMAX;
-		ALLPETS allPetsList;
-		pets[i] = *(allPetsList.GetAPet(random));
+		switch (random)
+		{
+		case 0:
+			pets[i] = new GYARADOS;
+			break;
+		case 1:
+			pets[i] = new HAPPINY;
+			break;
+		case 2:
+			pets[i] = new SQUIRTLE;
+			break;
+		case 3:
+			pets[i] = new MEWTWO;
+			break;
+		case 4:
+			pets[i] = new INCINEROAR;
+			break;
+		case 5:
+			pets[i] = new WOBBUFFET;
+			break;
+		case 6:
+			pets[i] = new STEELIX;
+			break;
+		case 7:
+			pets[i] = new ALAKAZAM;
+		default:
+			break;
+		}
 		++petNum;
 	}
 }
@@ -92,19 +195,19 @@ void USER::InsertUser()
 
 	//插入用户信息
 	/* Create SQL statement */
-	sql = "INSERT INTO USER (USERNAME,PASSWORD,PETNUM,WINRATE,NUMBADGE,ADVBADGE) "  \
+	sql = "INSERT INTO USER (USERNAME,PASSWORD,NICK,PETNUM,FIGHTTIME,WINTIME) "  \
 		"VALUES ('";
 	sql += userName;
 	sql += "','";
 	sql += passWord;
+	sql += "','";
+	sql += nick;
 	sql += "',";
 	sql += to_string(petNum);
 	sql += ",";
-	sql += to_string(winRate);
+	sql += to_string(fightTime);
 	sql += ",";
-	sql += to_string(petNumBadge);
-	sql += ",";
-	sql += to_string(petAdvancedBadge);
+	sql += to_string(winTime);
 	sql += ");";
 
 	/* Execute SQL statement */
@@ -145,121 +248,59 @@ void USER::InsertPet()
 	for (int i = 0; i < petNum; ++i)
 	{
 		/* Create SQL statement */
-		sql = "INSERT INTO PET (USERNAME,KIND,NAME,RANK,EXP,HP,ATKI,ATK,DEF,ACCURACY,"\
+		sql = "INSERT INTO PET (USERNAME,PETORDER,KIND,NAME,RANK,EXP,HP,ATKI,ATK,DEF,ACCURACY,"\
 			"EVASIVENESS,WTYPE,ALLSKILLCNT,GOTSKILLCNT,NICK,"\
-			"SKILL0NAME,SKILL0RANK,SKILL0KIND,SKILL0POWER,SKILL0HIT,SKILL0OWN,"\
-			"SKILL1NAME,SKILL1RANK,SKILL1KIND,SKILL1POWER,SKILL1HIT,SKILL1OWN,"\
-			"SKILL2NAME,SKILL2RANK,SKILL2KIND,SKILL2POWER,SKILL2HIT,SKILL2OWN,"\
-			"SKILL3NAME,SKILL3RANK,SKILL3KIND,SKILL3POWER,SKILL3HIT,SKILL3OWN,"\
-			"SKILL4NAME,SKILL4RANK,SKILL4KIND,SKILL4POWER,SKILL4HIT,SKILL4OWN,"\
-			"SKILL5NAME,SKILL5RANK,SKILL5KIND,SKILL5POWER,SKILL5HIT,SKILL5OWN) "\
+			"SKILL0OWN,SKILL1OWN,SKILL2OWN,SKILL3OWN,SKILL4OWN,SKILL5OWN)"\
 			"VALUES ('";
 		sql += userName;
 		sql += "',";
-		sql += to_string(pets[i].Get_Kind());
+		sql += to_string(pets[i]->Get_Order());
+		sql += ",";
+		sql += to_string(pets[i]->Get_Kind());
 		sql += ",'";
-		sql += pets[i].Get_Name();
+		sql += pets[i]->Get_Name();
 		sql += "',";
-		sql += to_string(pets[i].Get_Rank());
+		sql += to_string(pets[i]->Get_Rank());
 		sql += ",";
-		sql += to_string(pets[i].Get_Exp());
+		sql += to_string(pets[i]->Get_Exp());
 		sql += ",";
-		sql += to_string(pets[i].Get_Hp());
+		sql += to_string(pets[i]->Get_Hp());
 		sql += ",";
-		sql += to_string(pets[i].Get_AtkI());
+		sql += to_string(pets[i]->Get_AtkI());
 		sql += ",";
-		sql += to_string(pets[i].Get_Atk());
+		sql += to_string(pets[i]->Get_Atk());
 		sql += ",";
-		sql += to_string(pets[i].Get_Def());
+		sql += to_string(pets[i]->Get_Def());
 		sql += ",";
-		sql += to_string(pets[i].Get_Accuracy());
+		sql += to_string(pets[i]->Get_Accuracy());
 		sql += ",";
-		sql += to_string(pets[i].Get_Evasiveness());
+		sql += to_string(pets[i]->Get_Evasiveness());
 		sql += ",";
-		sql += to_string(pets[i].Get_Type());
+		sql += to_string(pets[i]->Get_Type());
 		sql += ",";
-		sql += to_string(pets[i].Get_ALLSkillCnt());
+		sql += to_string(pets[i]->Get_ALLSkillCnt());
 		sql += ",";
-		sql += to_string(pets[i].Get_GotSkillCnt());
+		sql += to_string(pets[i]->Get_GotSkillCnt());
 		sql += ",'";
-		sql += pets[i].Get_Nick();
+		sql += pets[i]->Get_Nick();
 		sql += "','";
-		const SKILL* theSkillptr = pets[i].Access_AllSkill();
-		sql += theSkillptr->SkillName;	//开始插入技能0
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
+
+		const SKILL* theSkillptr = pets[i]->Access_AllSkill();
 		sql += to_string(theSkillptr->Selected);
 		sql += ",'";
 		++theSkillptr;
-		sql += theSkillptr->SkillName;	//开始插入技能1
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
 		sql += to_string(theSkillptr->Selected);
 		sql += ",'";
 		++theSkillptr;
-		sql += theSkillptr->SkillName;	//开始插入技能2
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
 		sql += to_string(theSkillptr->Selected);
 		sql += ",'";
 		++theSkillptr;
-		sql += theSkillptr->SkillName;	//开始插入技能3
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
 		sql += to_string(theSkillptr->Selected);
 		sql += ",'";
 		++theSkillptr;
-		sql += theSkillptr->SkillName;	//开始插入技能4
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
 		sql += to_string(theSkillptr->Selected);
 		sql += ",'";
 		++theSkillptr;
-		sql += theSkillptr->SkillName;	//开始插入技能5
-		sql += "',";
-		sql += to_string(theSkillptr->SkillRank);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillKind);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillPower);
-		sql += ",";
-		sql += to_string(theSkillptr->SkillHit);
-		sql += ",";
 		sql += to_string(theSkillptr->Selected);
 		sql += ");";
 
@@ -313,15 +354,15 @@ void USER::FillInfo_from_Sqlite()
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
-	userName = pResult[0];
+	userName = pResult[0];	
 	passWord = pResult[1];
-	petNum = atoi(pResult[2]);
-	winRate = strtod(pResult[3], NULL);
-	petNumBadge = (BADGE)atoi(pResult[4]);
-	petAdvancedBadge = (BADGE)atoi(pResult[5]);
+	nick = pResult[2];
+	petNum = atoi(pResult[3]);
+	fightTime = atoi(pResult[4]);
+	winTime = atoi(pResult[5]);
 	sqlite3_free_table(pResult);
 	//测试输出////////////////////
-	cout << userName << endl << passWord << endl << petNum << endl << winRate << endl << petNumBadge << endl << petAdvancedBadge << endl;
+	cout << userName << endl << passWord << endl << nick << petNum << endl << fightTime << endl << winTime << endl;
 
 	//取出宠物信息
 	sql = "SELECT * FROM PET WHERE USERNAME='";
@@ -337,12 +378,77 @@ void USER::FillInfo_from_Sqlite()
 	}
 	for (int i = 0; i < nRow; ++i)//or i<petNum
 	{
-		int j = 0;
-		pets[i].Input_Kind((POKEMONKIND)atoi(pResult[j]));
-		++j;
-		pets[i].Input_Name(pResult[j]);
-		++j;
 
+		int j = 1;
+		int order = atoi(pResult[j]);
+		switch (order)
+		{
+		case 0:
+			pets[i] = new GYARADOS;
+			break;
+		case 1:
+			pets[i] = new HAPPINY;
+			break;
+		case 2:
+			pets[i] = new SQUIRTLE;
+			break;
+		case 3:
+			pets[i] = new MEWTWO;
+			break;
+		case 4:
+			pets[i] = new INCINEROAR;
+			break;
+		case 5:
+			pets[i] = new WOBBUFFET;
+			break;
+		case 6:
+			pets[i] = new STEELIX;
+			break;
+		case 7:
+			pets[i] = new ALAKAZAM;
+		default:
+			break;
+		}
+		pets[i]->Input_Order(order);
+		++j;
+		pets[i]->Input_Kind((POKEMONKIND)atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Name(pResult[j]);
+		++j;
+		pets[i]->Input_Rank(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Exp(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Hp(strtod(pResult[j],NULL));
+		++j;
+		pets[i]->Input_AtkI(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Atk(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Def(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Accuracy(strtod(pResult[j], NULL));
+		++j;
+		pets[i]->Input_Evasiveness(strtod(pResult[j], NULL));
+		++j;
+		pets[i]->Input_Type((WUXINGTYPE)atoi(pResult[j]));
+		++j;
+		pets[i]->Input_ALLSkillCnt(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_GotSkillCnt(atoi(pResult[j]));
+		++j;
+		pets[i]->Input_Nick(pResult[j]);
+		++j;
+		PSKILL *theSkill = pets[i]->Write_GotSkill(0);
+		for (int k = 0; k <= 5; ++k)
+		{
+			if ((OWN)atoi(pResult[j]) == OWNED)
+			{
+				*theSkill = pets[i]->Write_AllSkill() + k;
+				++theSkill;
+			}
+			++j;
+		}
 	}
 
 	sqlite3_close(db);

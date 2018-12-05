@@ -91,6 +91,16 @@ POKEMON::~POKEMON()
 {
 }
 
+void POKEMON::Input_Order(int porder)
+{
+	PetOrder = porder;
+}
+
+int POKEMON::Get_Order()
+{
+	return PetOrder;
+}
+
 void POKEMON::Input_Kind(POKEMONKIND xkind)
 {
 	Kind = xkind;
@@ -410,6 +420,7 @@ AGILEPET::AGILEPET(const AGILEPET & PET) : POKEMON(PET)
 //ÀðÓãÍõMagikarp£¨1-5£©->±©ÀðÁúGyarados£¨6-10£©->³¬¼¶±©ÀðÁúSuper Gyarados£¨11-15£©,¸ß¹¥»÷
 GYARADOS::GYARADOS() : POWERPET()
 {
+	Input_Order(0);
 	Input_Name("ÀðÓãÍõMagikarp");//ÀðÓãÍõ
 	Input_Nick("ÀðÓãÍõ");
 	Input_Rank(1);
@@ -563,6 +574,7 @@ void GYARADOS::SkillAll()
 //Ð¡¸£µ°Happiny->¼ªÀûµ°Chansey->ÐÒ¸£µ°Blissey,Èâ¶ÜÐÍ
 HAPPINY::HAPPINY() : TANKPET()
 {
+	Input_Order(1);
 	Input_Name("Ð¡¸£µ°Happiny");
 	Input_Nick("Ð¡¸£µ°");
 	Input_Rank(1);
@@ -713,6 +725,7 @@ void HAPPINY::SkillAll()
 //½ÜÄá¹êSquirtle(1-5¼¶£©->¿¨ßä¹êWartortle(6-10¼¶£©->Ë®¼ý¹êBlastoise(11-15¼¶£©£¬¸ß·ÀÓù
 SQUIRTLE::SQUIRTLE():DEFENSIVEPET()
 {
+	Input_Order(2);
 	Input_Name("½ÜÄá¹êSquirtle");
 	Input_Nick("½ÜÄá¹ê");
 	Input_Rank(1);
@@ -863,6 +876,7 @@ void SQUIRTLE::SkillAll()
 //³¬ÃÎxMewtwoX->³¬ÃÎMewtwo->³¬¼¶³¬ÃÎyMewtwoY£¬Ãô½ÝÐÍ
 MEWTWO::MEWTWO() : AGILEPET()
 {
+	Input_Order(3);
 	Input_Name("³¬ÃÎx MewtwoX");
 	Input_Nick("³¬ÃÎx");
 	Input_Rank(1);
@@ -1013,6 +1027,7 @@ void MEWTWO::SkillAll()
 //»ð°ßß÷Litten->Ñ×ÈÈß÷Torracat->³ãÑæÅØÐ¥»¢Incineroar£¬Á¦Á¿ÐÍ
 INCINEROAR::INCINEROAR() : POWERPET()
 {
+	Input_Order(4);
 	Input_Name("»ð°ßß÷Litten");
 	Input_Nick("»ð°ßß÷");
 	Input_Rank(1);
@@ -1163,6 +1178,7 @@ void INCINEROAR::SkillAll()
 //Ð¡¹ûÈ»Wynaut->¹ûÈ»ÎÌWobbuffet£¬Èâ¶ÜÐÍ
 WOBBUFFET::WOBBUFFET() : TANKPET()
 {
+	Input_Order(5);
 	Input_Name("Ð¡¹ûÈ»Wynaut");
 	Input_Nick("Ð¡¹ûÈ»");
 	Input_Rank(1);
@@ -1308,6 +1324,7 @@ void WOBBUFFET::SkillAll()
 //´óÑÒÉßOnix->´ó¸ÖÉßSteelix->³¬¼¶´ó¸ÖÉß£¬·ÀÓùÐÍ
 STEELIX::STEELIX() : DEFENSIVEPET()
 {
+	Input_Order(6);
 	Input_Name("´óÑÒÉßOnix");
 	Input_Nick("´óÑÒÉß");
 	Input_Rank(1);
@@ -1458,6 +1475,7 @@ void STEELIX::SkillAll()
 //¿­Î÷Abra->ÓÂ»ùÀ­Kadabra->ºúµØAlakazam£¬Ãô½ÝÐÍ
 ALAKAZAM::ALAKAZAM() : AGILEPET()
 {
+	Input_Order(7);
 	Input_Name("¿­Î÷Abra");
 	Input_Nick("¿­Î÷");
 	Input_Rank(1);
