@@ -156,7 +156,7 @@ int main(int argc, char* argv[])
 		if (!flag)
 			cout << "接收到一个链接：" << inet_ntoa(client_sin.sin_addr) << endl;
 		flag = 1;
-		int num = recv(clientSocket, msg, 100, 0);
+		int num = recv(clientSocket, msg, 65535, 0);
 		if (num > 0)
 		{
 			msg[num] = '\0';
