@@ -450,7 +450,7 @@ GYARADOS::GYARADOS(const GYARADOS & PET) : POWERPET(PET)
 void GYARADOS::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	//if (currentRank >= 6)
@@ -604,7 +604,7 @@ HAPPINY::HAPPINY(const HAPPINY & PET) : TANKPET(PET)
 void HAPPINY::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
@@ -755,7 +755,7 @@ SQUIRTLE::SQUIRTLE(const SQUIRTLE & PET) : DEFENSIVEPET(PET)
 void SQUIRTLE::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
@@ -906,7 +906,7 @@ MEWTWO::MEWTWO(const MEWTWO & PET) : AGILEPET(PET)
 void MEWTWO::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
@@ -1057,7 +1057,7 @@ INCINEROAR::INCINEROAR(const INCINEROAR & PET) : POWERPET(PET)
 void INCINEROAR::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
@@ -1208,7 +1208,7 @@ WOBBUFFET::WOBBUFFET(const WOBBUFFET & PET) : TANKPET(PET)
 void WOBBUFFET::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 8)
@@ -1354,7 +1354,7 @@ STEELIX::STEELIX(const STEELIX & PET) : DEFENSIVEPET(PET)
 void STEELIX::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
@@ -1505,7 +1505,7 @@ ALAKAZAM::ALAKAZAM(const ALAKAZAM & PET) : AGILEPET(PET)
 void ALAKAZAM::Upgrade()
 {
 	string currentName = Get_Name();
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
 	cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)

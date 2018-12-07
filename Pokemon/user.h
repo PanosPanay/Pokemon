@@ -23,6 +23,7 @@ private:
 
 public:
 	USER();
+	~USER();
 	string Get_UserName() const;
 	void Input_UserName(string uname);
 	string Get_PassWord() const;

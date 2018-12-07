@@ -11,6 +11,14 @@ USER::USER()
 	/////////////注册成功后再随机发放3只精灵
 }
 
+USER::~USER()
+{
+	for (int i = 0; i < petNum; ++i)
+	{
+		delete pets[i];
+	}
+}
+
 string USER::Get_UserName() const
 {
 	return userName;
@@ -142,7 +150,6 @@ void USER::InitialPets()//初始送出3只精灵
 {
 	for (int i = 0; i < 3; ++i)
 	{
-		srand((unsigned)time(NULL));
 		int random = rand() % PETMAX;
 		switch (random)
 		{
@@ -283,23 +290,23 @@ void USER::InsertPet()
 		sql += to_string(pets[i]->Get_GotSkillCnt());
 		sql += ",'";
 		sql += pets[i]->Get_Nick();
-		sql += "','";
+		sql += "',";
 
 		const SKILL* theSkillptr = pets[i]->Access_AllSkill();
 		sql += to_string(theSkillptr->Selected);
-		sql += ",'";
+		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
-		sql += ",'";
+		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
-		sql += ",'";
+		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
-		sql += ",'";
+		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
-		sql += ",'";
+		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
 		sql += ");";
@@ -354,12 +361,12 @@ void USER::FillInfo_from_Sqlite()
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
-	userName = pResult[0];	
-	passWord = pResult[1];
-	nick = pResult[2];
-	petNum = atoi(pResult[3]);
-	fightTime = atoi(pResult[4]);
-	winTime = atoi(pResult[5]);
+	userName = pResult[6];	
+	passWord = pResult[7];
+	nick = pResult[8];
+	petNum = atoi(pResult[9]);
+	fightTime = atoi(pResult[10]);
+	winTime = atoi(pResult[11]);
 	sqlite3_free_table(pResult);
 	//测试输出////////////////////
 	cout << userName << endl << passWord << endl << nick << petNum << endl << fightTime << endl << winTime << endl;
@@ -376,10 +383,10 @@ void USER::FillInfo_from_Sqlite()
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
+	int j = 22;
 	for (int i = 0; i < nRow; ++i)//or i<petNum
 	{
-
-		int j = 1;
+		++j;
 		int order = atoi(pResult[j]);
 		switch (order)
 		{
@@ -449,7 +456,9 @@ void USER::FillInfo_from_Sqlite()
 			}
 			++j;
 		}
-	}
 
+		//测试输出
+		cout << pets[i]->Get_Name() << " " << pets[i]->Access_GotSkill(0)->SkillName << endl;
+	}
 	sqlite3_close(db);
 }

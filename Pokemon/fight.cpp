@@ -22,7 +22,7 @@ FIGHT::FIGHT(const FIGHT & theFight)
 
 void FIGHT::A_VS_B()
 {
-	srand((unsigned)time(NULL));
+	//srand((unsigned)time(NULL));
 	//int Attacker;//0表示攻击方是A，1表示攻击方是B
 	POKEMON *Attacker = NULL;
 	POKEMON *Defender = NULL;
