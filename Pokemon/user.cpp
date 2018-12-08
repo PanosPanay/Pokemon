@@ -4,7 +4,7 @@ USER::USER()
 {
 	//userName=
 	//passWord=
-	nick = userName;//默认等于用户名
+	nick = "NULL";//默认等于"NULL"
 	petNum = 0;
 	//winRate = 0;
 	//2个徽章
@@ -93,7 +93,12 @@ void USER::Input_WinTime(int uwintime)
 double USER::Get_WinRate() const
 {
 	double winRate;
-	winRate = (double)winTime / (double)fightTime;
+	if (fightTime == 0)
+		winRate = 0;
+	else
+	{
+		winRate = (double)winTime / (double)fightTime;
+	}
 	return winRate;
 }
 
@@ -457,7 +462,7 @@ void USER::FillInfo_from_Sqlite()
 			++j;
 		}
 
-		//测试输出
+		//测试输出//////////////////////////
 		cout << pets[i]->Get_Name() << " " << pets[i]->Access_GotSkill(0)->SkillName << endl;
 	}
 	sqlite3_close(db);

@@ -2,8 +2,10 @@
 #include"user.h"
 #include"fight.h"
 #include"sqlite3.h"
+#include<sstream>
 //#include<winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
+const int USERMAX = 20;//设定最大同时登录的用户数
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 	int i;
@@ -160,7 +162,14 @@ int main(int argc, char* argv[])
 	//USER buser;
 	//buser.FillInfo_from_Sqlite();
 
-	USER  *newuser=new USER;//新建一个用户
+	USER *playUsers[USERMAX];
+	for (int i = 0; i < USERMAX; ++i)
+	{
+		playUsers[i] = nullptr;			//nullptr代表没有存用户，如果一个用户退出登录，delete再重置为nullptr
+	}
+	int userCnt = 0;
+	//USER  *newuser=new USER;//新建一个用户
+	int currentUser;//当前正在处理的user
 
 	//socket通信
 	//初始化DLL
@@ -254,9 +263,20 @@ int main(int argc, char* argv[])
 					{
 						dataSend = "login:|user_not_exist|";
 					}
-					else if (searchResult == 1)//用户存在且密码输入正确
+					else if (searchResult == 1)//用户存在且密码输入正确，登录，存到当前用户列表
 					{
 						dataSend = "login:|ok|";
+						//在在线用户列表中找到一个没有存用户的，新建一个用户数据
+						int i = 0;
+						for (i = 0; i < USERMAX&&playUsers[i] != nullptr; ++i)
+						{
+						}
+						currentUser = i;
+						playUsers[currentUser] = new USER;
+						//去数据库根据用户名寻找
+						playUsers[currentUser]->Input_UserName(username);
+						playUsers[currentUser]->FillInfo_from_Sqlite();
+						++userCnt;//在线的用户数+1
 					}
 					else if (searchResult == 2)//用户存在但是密码输入错误
 					{
@@ -289,7 +309,7 @@ int main(int argc, char* argv[])
 					{
 						dataSend = "sign:|ok|";
 						//注册一个用户，插入到数据库
-						//USER  newuser;
+						USER  *newuser=new USER;					
 						newuser->Input_UserName(username);
 						newuser->Input_PassWord(password);
 						newuser->InitialPets();
@@ -311,10 +331,67 @@ int main(int argc, char* argv[])
 				cout << "收到信息有误，无法获取用户名" << endl;
 			}
 		}
+		else if (thePart == "user_self_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			//已经登录的用户信息肯定能找到，不存在找不到的情况
+			int i;
+			for (i = 0; i < USERMAX && (playUsers[i]==nullptr||playUsers[i]->Get_UserName()!=username); ++i)
+			{
+			}
+			if (i == USERMAX)
+				cout << "用户" << username << "未登录！" << endl;
+			else
+			{
+				currentUser = i;
+				dataSend = "user_self_info:|";
+				dataSend += playUsers[currentUser]->Get_UserName();
+				dataSend += "|";
+				dataSend += playUsers[currentUser]->Get_Nick();
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->Get_FightTime());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->Get_WinTime());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->Get_WinRate());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->Get_PetNum());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->Get_AdvNum());
+				dataSend += "|";
+				for (int j = 0; j < playUsers[currentUser]->Get_PetNum(); ++j)
+				{
+					dataSend += playUsers[currentUser]->ReadPets(j)->Get_Name();
+					dataSend += "|";
+					dataSend += playUsers[currentUser]->ReadPets(j)->Get_Nick();
+					dataSend += "|";
+					POKEMONKIND theKind = playUsers[currentUser]->ReadPets(j)->Get_Kind();
+					switch (theKind)
+					{
+					case POWER:
+						dataSend += "力量型";
+						break;
+					case TANK:
+						dataSend += "肉盾型";
+						break;
+					case DEFENSIVE:
+						dataSend += "防御型";
+						break;
+					case AGILE:
+						dataSend += "敏捷型";
+						break;
+					}
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Rank());
+					dataSend += "|";
+				}
+			}
+		}
 
 		//string dataSend;
 		//getline(cin, dataSend);
-		cout << "dataSend = " << dataSend;//测试输出
+		cout << "dataSend = " << dataSend << endl;//测试输出
 		const char * sendData;
 		sendData = dataSend.c_str();
 		send(clientSocket, sendData, strlen(sendData), 0);//发送，在最后加上空格，$等终止符，防止读到后面的乱码
