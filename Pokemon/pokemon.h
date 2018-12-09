@@ -53,7 +53,8 @@ typedef SKILL * PSKILL;
 //宠物基类
 class POKEMON {
 private:
-	int PetOrder;						//是第几类具体精灵
+	int totalOrder;					//是全部已经发放出去的宠物的第totalOrder只
+	int PetOrder;					//是第几类具体精灵
 	POKEMONKIND	Kind;				//种类
 	string Name;					//名字
 	int Rank=1;						//等级:每个精灵初始等级为1，满级15
@@ -80,8 +81,10 @@ public:
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);//赋值构造函数
 	POKEMON(const POKEMON &PET);//拷贝构造函数
 	~POKEMON();
+	void Input_totalOrder(int ptorder);
+	int Get_totalOrder()const;
 	void Input_Order(int porder);
-	int Get_Order();
+	int Get_Order()const;
 	void Input_Kind(POKEMONKIND xkind);
 	POKEMONKIND Get_Kind()const;
 	void Input_Name(string xname);

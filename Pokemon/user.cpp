@@ -19,6 +19,16 @@ USER::~USER()
 	}
 }
 
+int USER::Get_Online() const
+{
+	return online;
+}
+
+void USER::Input_Online(int uonline)
+{
+	online = uonline;
+}
+
 string USER::Get_UserName() const
 {
 	return userName;
@@ -151,7 +161,7 @@ static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
 	return 0;
 }
 
-void USER::InitialPets()//初始送出3只精灵
+void USER::InitialPets(int utotalOrder)//初始送出3只精灵
 {
 	for (int i = 0; i < 3; ++i)
 	{
@@ -186,6 +196,9 @@ void USER::InitialPets()//初始送出3只精灵
 		}
 		++petNum;
 	}
+	pets[0]->Input_totalOrder(utotalOrder);
+	pets[1]->Input_totalOrder(utotalOrder+1);
+	pets[2]->Input_totalOrder(utotalOrder+2);
 }
 
 void USER::InsertUser()
@@ -207,7 +220,7 @@ void USER::InsertUser()
 
 	//插入用户信息
 	/* Create SQL statement */
-	sql = "INSERT INTO USER (USERNAME,PASSWORD,NICK,PETNUM,FIGHTTIME,WINTIME) "  \
+	sql = "INSERT INTO USER (USERNAME,PASSWORD,NICK,PETNUM,FIGHTTIME,WINTIME,ONLINE) "  \
 		"VALUES ('";
 	sql += userName;
 	sql += "','";
@@ -220,6 +233,8 @@ void USER::InsertUser()
 	sql += to_string(fightTime);
 	sql += ",";
 	sql += to_string(winTime);
+	sql += ",";
+	sql += to_string(online);
 	sql += ");";
 
 	/* Execute SQL statement */
@@ -236,7 +251,54 @@ void USER::InsertUser()
 
 void USER::UpdateUser()
 {
+	sqlite3 *db;
+	char *zErrMsg = 0;
+	int rc;
+	string sql;
+	const char* data = "Callback function called";
 
+	/* Open database */
+	rc = sqlite3_open("test.db", &db);
+	if (rc) {
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		exit(0);
+	}
+	else {
+		fprintf(stderr, "Opened database successfully\n");
+	}
+
+	/* Create merged SQL statement */
+	cout << "1//////////" << endl;///////////////////
+	sql = "UPDATE USER set USERNAME = '";
+	sql += userName;
+	sql += "', PASSWORD = '";
+	sql += passWord;
+	sql == "', NICK = '";
+	sql += nick;
+	sql += "', PETNUM = ";
+	sql += to_string(petNum);
+	sql += ", FIGHTTIME = ";
+	sql += to_string(fightTime);
+	sql += ", WINTIME = ";
+	sql += to_string(winTime);
+	sql += ", ONLINE = ";
+	sql += to_string(online);
+	sql += " where USERNAME=";
+	sql += userName;
+	sql += ";";
+
+	cout << "2//////////" << endl;///////////////////
+	/* Execute SQL statement */
+	rc = sqlite3_exec(db, sql.data(), callback, (void*)data, &zErrMsg);
+	cout << "3//////////" << endl;///////////////////
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+	}
+	else {
+		fprintf(stdout, "Operation update user done successfully\n");
+	}
+	sqlite3_close(db);
 }
 
 void USER::InsertPet()
@@ -262,7 +324,7 @@ void USER::InsertPet()
 		/* Create SQL statement */
 		sql = "INSERT INTO PET (USERNAME,PETORDER,KIND,NAME,RANK,EXP,HP,ATKI,ATK,DEF,ACCURACY,"\
 			"EVASIVENESS,WTYPE,ALLSKILLCNT,GOTSKILLCNT,NICK,"\
-			"SKILL0OWN,SKILL1OWN,SKILL2OWN,SKILL3OWN,SKILL4OWN,SKILL5OWN)"\
+			"SKILL0OWN,SKILL1OWN,SKILL2OWN,SKILL3OWN,SKILL4OWN,SKILL5OWN,TOTALORDER)"\
 			"VALUES ('";
 		sql += userName;
 		sql += "',";
@@ -314,6 +376,9 @@ void USER::InsertPet()
 		sql += ",";
 		++theSkillptr;
 		sql += to_string(theSkillptr->Selected);
+		sql += ",";
+
+		sql += to_string(pets[i]->Get_totalOrder());
 		sql += ");";
 
 		/* Execute SQL statement */
@@ -332,6 +397,88 @@ void USER::InsertPet()
 
 void USER::UpdatePet()
 {
+	sqlite3 *db;
+	char *zErrMsg = 0;
+	int rc;
+	string sql;
+	const char* data = "Callback function called";
+
+	/* Open database */
+	rc = sqlite3_open("test.db", &db);
+	if (rc) {
+		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		exit(0);
+	}
+	else {
+		fprintf(stderr, "Opened database successfully\n");
+	}
+
+	/* Create merged SQL statement */
+	//不必全部更新，有些数据不会改////////////////////////////
+	for (int i = 0; i < petNum; ++i)
+	{
+		sql = "UPDATE PET set RANK = ";
+		sql += to_string(pets[i]->Get_Rank());
+		sql += ", EXP = ";
+		sql += to_string(pets[i]->Get_Exp());
+		sql += ", HP = ";
+		sql += to_string(pets[i]->Get_Hp());
+		sql += ", ATKI = ";
+		sql += to_string(pets[i]->Get_AtkI());
+		sql += ", ATK = ";
+		sql += to_string(pets[i]->Get_Atk());
+		sql += ", DEF = ";
+		sql += to_string(pets[i]->Get_Def());
+		sql += ", ACCURACY = ";
+		sql += to_string(pets[i]->Get_Accuracy());
+		sql += ", EVASIVENESS = ";
+		sql += to_string(pets[i]->Get_Evasiveness());
+		sql += ", WTYPE = ";
+		sql += to_string(pets[i]->Get_Type());
+		sql += ", ALLSKILLCNT = ";
+		sql += to_string(pets[i]->Get_ALLSkillCnt());
+		sql += ", GOTSKILLCNT = ";
+		sql += to_string(pets[i]->Get_GotSkillCnt());
+		sql += ", NICK = '";
+		sql += pets[i]->Get_Nick();
+
+		const SKILL* theSkillptr = pets[i]->Access_AllSkill();
+		sql += "', SKILL0OWN = ";
+		sql += to_string(theSkillptr->Selected);		
+		++theSkillptr;
+		sql += ", SKILL1OWN = ";
+		sql += to_string(theSkillptr->Selected);
+		++theSkillptr;
+		sql += ", SKILL2OWN = ";
+		sql += to_string(theSkillptr->Selected);
+		++theSkillptr;
+		sql += ", SKILL3OWN = ";
+		sql += to_string(theSkillptr->Selected);
+		++theSkillptr;
+		sql += ", SKILL4OWN = ";
+		sql += to_string(theSkillptr->Selected);
+		++theSkillptr;
+		sql += ", SKILL5OWN = ";
+		sql += to_string(theSkillptr->Selected);
+
+		//sql += ", TOTALORDER = ";
+		//sql += to_string(pets[i]->Get_totalOrder());
+
+		sql += " where TOTALORDER=";
+		sql += to_string(pets[i]->Get_totalOrder());
+		sql += ",";
+
+		/* Execute SQL statement */
+		rc = sqlite3_exec(db, sql.data(), callback, (void*)data, &zErrMsg);
+		if (rc != SQLITE_OK) {
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+		}
+		else {
+			fprintf(stdout, "Operation update pet done successfully\n");
+		}
+	}
+	sqlite3_close(db);
 }
 
 void USER::FillInfo_from_Sqlite()
@@ -366,15 +513,16 @@ void USER::FillInfo_from_Sqlite()
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
-	userName = pResult[6];	
-	passWord = pResult[7];
-	nick = pResult[8];
-	petNum = atoi(pResult[9]);
-	fightTime = atoi(pResult[10]);
-	winTime = atoi(pResult[11]);
+	userName = pResult[7];	
+	passWord = pResult[8];
+	nick = pResult[9];
+	petNum = atoi(pResult[10]);
+	fightTime = atoi(pResult[11]);
+	winTime = atoi(pResult[12]);
+	online = atoi(pResult[13]);
 	sqlite3_free_table(pResult);
 	//测试输出////////////////////
-	cout << userName << endl << passWord << endl << nick << petNum << endl << fightTime << endl << winTime << endl;
+	cout << userName << endl << passWord << endl << nick << petNum << endl << fightTime << endl << winTime << online << endl;
 
 	//取出宠物信息
 	sql = "SELECT * FROM PET WHERE USERNAME='";
@@ -388,7 +536,7 @@ void USER::FillInfo_from_Sqlite()
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
-	int j = 22;
+	int j = 23;
 	for (int i = 0; i < nRow; ++i)//or i<petNum
 	{
 		++j;
@@ -461,6 +609,8 @@ void USER::FillInfo_from_Sqlite()
 			}
 			++j;
 		}
+		pets[i]->Input_totalOrder(atoi(pResult[j]));
+		++j;
 
 		//测试输出//////////////////////////
 		cout << pets[i]->Get_Name() << " " << pets[i]->Access_GotSkill(0)->SkillName << endl;

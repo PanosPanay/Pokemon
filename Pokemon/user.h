@@ -9,6 +9,7 @@ enum BADGE {							//高级宠物徽章
 //用户类
 class USER {
 private:
+	int online = 0;						//在线状态，0为离线，1为在线
 	string userName;					//用户名
 	string passWord;					//密码
 	string nick;						//用户昵称
@@ -24,6 +25,8 @@ private:
 public:
 	USER();
 	~USER();
+	int Get_Online() const;
+	void Input_Online(int uonline);
 	string Get_UserName() const;
 	void Input_UserName(string uname);
 	string Get_PassWord() const;
@@ -46,7 +49,7 @@ public:
 	//void Input_AdvBadge(BADGE abadge);
 	const POKEMON *ReadPets(int order) const;		//返回读取第order只宠物的指针
 	POKEMON *WritePets(int order);					//返回修改第order只宠物的指针
-	void InitialPets();								//初始随机发放3只宠物//未完成
+	void InitialPets(int totalOrder);								//初始随机发放3只宠物//未完成
 	void InsertUser();								//在用户数据库中插入用户
 	void UpdateUser();								//更新数据库中的用户信息
 	void InsertPet();								//在宠物数据库中插入用户宠物

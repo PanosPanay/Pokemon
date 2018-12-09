@@ -63,6 +63,8 @@ POKEMON::POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 
 POKEMON::POKEMON(const POKEMON & PET)
 {
+	totalOrder = PET.Get_totalOrder();
+	totalOrder = PET.Get_Order();
 	Kind = PET.Get_Kind();
 	Name = PET.Get_Name();
 	Rank = PET.Get_Rank();
@@ -91,12 +93,22 @@ POKEMON::~POKEMON()
 {
 }
 
+void POKEMON::Input_totalOrder(int ptorder)
+{
+	totalOrder = ptorder;
+}
+
+int POKEMON::Get_totalOrder() const
+{
+	return totalOrder;
+}
+
 void POKEMON::Input_Order(int porder)
 {
 	PetOrder = porder;
 }
 
-int POKEMON::Get_Order()
+int POKEMON::Get_Order()const
 {
 	return PetOrder;
 }
