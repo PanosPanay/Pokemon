@@ -273,11 +273,13 @@ void USER::UpdateUser()
 	sql += "', PASSWORD = '";
 	sql += passWord;
 	cout << "password2=" << passWord << endl;/////////////
-	sql == "', NICK = '";
-	sql += nick;
+	//sql == "', NICK = '";
+	//sql += nick;
 	sql += "', PETNUM = ";
 	sql += to_string(petNum);
-	sql += ", FIGHTTIME = ";
+	sql += ", NICK = '";
+	sql += nick;
+	sql += "', FIGHTTIME = ";
 	sql += to_string(fightTime);
 	sql += ", WINTIME = ";
 	sql += to_string(winTime);
