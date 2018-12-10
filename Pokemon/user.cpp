@@ -258,7 +258,7 @@ void USER::UpdateUser()
 	const char* data = "Callback function called";
 
 	/* Open database */
-	rc = sqlite3_open("test.db", &db);
+	rc = sqlite3_open("pokemon.db", &db);
 	if (rc) {
 		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
 		exit(0);
@@ -268,11 +268,11 @@ void USER::UpdateUser()
 	}
 
 	/* Create merged SQL statement */
-	cout << "1//////////" << endl;///////////////////
 	sql = "UPDATE USER set USERNAME = '";
 	sql += userName;
 	sql += "', PASSWORD = '";
 	sql += passWord;
+	cout << "password2=" << passWord << endl;/////////////
 	sql == "', NICK = '";
 	sql += nick;
 	sql += "', PETNUM = ";
@@ -283,14 +283,12 @@ void USER::UpdateUser()
 	sql += to_string(winTime);
 	sql += ", ONLINE = ";
 	sql += to_string(online);
-	sql += " where USERNAME=";
+	sql += " where USERNAME='";
 	sql += userName;
-	sql += ";";
+	sql += "';";
 
-	cout << "2//////////" << endl;///////////////////
 	/* Execute SQL statement */
 	rc = sqlite3_exec(db, sql.data(), callback, (void*)data, &zErrMsg);
-	cout << "3//////////" << endl;///////////////////
 	if (rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
@@ -404,7 +402,7 @@ void USER::UpdatePet()
 	const char* data = "Callback function called";
 
 	/* Open database */
-	rc = sqlite3_open("test.db", &db);
+	rc = sqlite3_open("pokemon.db", &db);
 	if (rc) {
 		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
 		exit(0);
@@ -466,7 +464,7 @@ void USER::UpdatePet()
 
 		sql += " where TOTALORDER=";
 		sql += to_string(pets[i]->Get_totalOrder());
-		sql += ",";
+		sql += ";";
 
 		/* Execute SQL statement */
 		rc = sqlite3_exec(db, sql.data(), callback, (void*)data, &zErrMsg);
@@ -522,7 +520,8 @@ void USER::FillInfo_from_Sqlite()
 	online = atoi(pResult[13]);
 	sqlite3_free_table(pResult);
 	//测试输出////////////////////
-	cout << userName << endl << passWord << endl << nick << petNum << endl << fightTime << endl << winTime << online << endl;
+	cout << "从数据库取出用户：";
+	cout << userName << " " << passWord << " " << nick << " " << petNum << " " << fightTime << " " << winTime << " " << online << endl;
 
 	//取出宠物信息
 	sql = "SELECT * FROM PET WHERE USERNAME='";
@@ -613,7 +612,8 @@ void USER::FillInfo_from_Sqlite()
 		++j;
 
 		//测试输出//////////////////////////
-		cout << pets[i]->Get_Name() << " " << pets[i]->Access_GotSkill(0)->SkillName << endl;
+		//cout << pets[i]->Get_Name() << " " << pets[i]->Access_GotSkill(0)->SkillName << endl;
 	}
+	cout << "successful get the user and his pets'info" << endl;
 	sqlite3_close(db);
 }

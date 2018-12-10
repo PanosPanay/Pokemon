@@ -378,7 +378,7 @@ int GetPetsCnt()//得到宠物总数
 	}
 	nowPetsCnt = nRow;
 	sqlite3_close(db);
-	cout << nRow << endl;////////////
+	cout <<"当前系统送出精灵总数："<< nRow << endl;////////////
 	return nRow;
 }
 
@@ -760,6 +760,8 @@ int main(int argc, char* argv[])
 			else
 			{
 				currentUser = i;
+				dataSend += "quit_info:|" + username + "|ok|";
+				cout << "password1=" << playUsers[currentUser]->Get_PassWord() << endl;////
 				playUsers[currentUser]->Input_Online(0);
 				playUsers[currentUser]->UpdateUser();
 				playUsers[currentUser]->UpdatePet();
