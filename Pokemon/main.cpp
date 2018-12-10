@@ -8,6 +8,7 @@
 using namespace std;
 const int USERMAX = 20;//设定最大同时登录的用户数
 int petsCnt; //宠物总数
+const int VIRTUAL_PETS_NUM = 8;//虚拟精灵数为8
 //USER *playUsers[USERMAX];//存储当前在线的用户
 
 static int callback(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -382,6 +383,7 @@ int GetPetsCnt()//得到宠物总数
 	return nRow;
 }
 
+
 int main(int argc, char* argv[])
 {
 	srand((unsigned)time(NULL));
@@ -389,7 +391,7 @@ int main(int argc, char* argv[])
 	//初始运行一次,创建一个表就注释掉(已创建，不需要重复创建）
 	//CreatTable();
 	//-------------------------------------------------
-	petsCnt = GetPetsCnt();
+	petsCnt = GetPetsCnt();//获得当前系统分发出去的总数
 
 	USER *playUsers[USERMAX];
 	for (int i = 0; i < USERMAX; ++i)
@@ -399,6 +401,12 @@ int main(int argc, char* argv[])
 	int userCnt = 0;
 	USER  *newuser=new USER;//新建一个用户
 	int currentUser;//当前正在处理的user
+
+	POKEMON *virtualPets[VIRTUAL_PETS_NUM];//虚拟精灵列表
+	for (int i = 0; i < VIRTUAL_PETS_NUM; ++i)
+	{
+		virtualPets[i] = nullptr;
+	}
 
 	//socket通信
 	//初始化DLL
@@ -768,6 +776,241 @@ int main(int argc, char* argv[])
 				delete playUsers[currentUser];
 				playUsers[currentUser] = nullptr;
 				--userCnt;//登录的用户数-1
+			}
+		}
+		else if (thePart == "mypets_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			int i;
+			for (i = 0; i < USERMAX && (playUsers[i] == nullptr || playUsers[i]->Get_UserName() != username); ++i)
+			{
+			}
+			if (i == USERMAX)
+				cout << "用户" << username << "未登录！" << endl;
+			else
+			{
+				currentUser = i;
+				dataSend += "mypets_info:|" + username + "|";
+				dataSend += to_string(playUsers[currentUser]->Get_PetNum());
+				dataSend += "|";
+				for (int j = 0; j < playUsers[currentUser]->Get_PetNum(); ++j)///////////////////
+				{
+					dataSend += playUsers[currentUser]->ReadPets(j)->Get_Name();
+					dataSend += "|";
+					dataSend += playUsers[currentUser]->ReadPets(j)->Get_Nick();
+					dataSend += "|";
+					POKEMONKIND pkind = playUsers[currentUser]->ReadPets(j)->Get_Kind();
+					switch (pkind)
+					{
+					case POWER:
+						dataSend += "力量型";
+						break;
+					case TANK:
+						dataSend += "肉盾型";
+						break;
+					case DEFENSIVE:
+						dataSend += "防御型";
+						break;
+					case AGILE:
+						dataSend += "敏捷型";
+						break;
+					}
+					dataSend += "|";
+					WUXINGTYPE thetype = playUsers[currentUser]->ReadPets(j)->Get_Type();
+					switch (thetype)
+					{
+					case JIN:
+						dataSend += "金";
+						break;
+					case MU:
+						dataSend += "木";
+						break;
+					case SHUI:
+						dataSend += "水";
+						break;
+					case HUO:
+						dataSend += "火";
+						break;
+					case TU:
+						dataSend += "土";
+						break;
+					}
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Rank());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Order());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Exp());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Hp());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Atk());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Def());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_AtkI());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Accuracy());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_Evasiveness());
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(j)->Get_GotSkillCnt());
+					dataSend += "|";
+				}
+			}
+		}
+		else if (thePart == "virtualpets_info:")////
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			//随机虚拟精灵表
+			cout << "初始化虚拟精灵表" << endl;
+			for (int i = 0; i < VIRTUAL_PETS_NUM; ++i)
+			{
+				if (virtualPets[i] != nullptr)
+				{
+					delete virtualPets[i];
+					virtualPets[i] = nullptr;
+				}					
+				int randomName = rand() % 8;
+				switch (randomName)
+				{
+				case 0:
+					virtualPets[i] = new GYARADOS;
+					break;
+				case 1:
+					virtualPets[i] = new HAPPINY;
+					break;
+				case 2:
+					virtualPets[i] = new SQUIRTLE;
+					break;
+				case 3:
+					virtualPets[i] = new MEWTWO;
+					break;
+				case 4:
+					virtualPets[i] = new INCINEROAR;
+					break;
+				case 5:
+					virtualPets[i] = new WOBBUFFET;
+					break;
+				case 6:
+					virtualPets[i] = new STEELIX;
+					break;
+				case 7:
+					virtualPets[i] = new ALAKAZAM;
+				default:
+					break;
+				}
+				int randomExp = rand() % 2600;
+				virtualPets[i]->Input_Exp(randomExp);
+				virtualPets[i]->RefershRank();
+				int currentRank = virtualPets[i]->Get_Rank();
+				double currentHP = virtualPets[i]->Get_Hp();
+				int currentAtk = virtualPets[i]->Get_Atk();
+				int currentDef = virtualPets[i]->Get_Def();
+				int currentAtkI = virtualPets[i]->Get_AtkI();
+				for (int j = 1; j < currentRank; ++j)
+				{
+					currentHP += rand() % 5 + 1;
+					currentAtk += rand() % 5 + 1;
+					currentDef += rand() % 5 + 1;
+					currentAtkI -= rand() % 3 + 1;
+					if (currentAtkI <= 10)
+					{
+						currentAtkI = 10;
+					}
+					//有几率获得技能
+					int randomSkill = rand() % 10;//跳过第一个技能
+					if (randomSkill >= 5 && virtualPets[i]->Get_GotSkillCnt() < virtualPets[i]->Get_ALLSkillCnt())
+					{
+						randomSkill = rand() % (virtualPets[i]->Get_ALLSkillCnt() - 1) + 1;//跳过第一个技能
+						PSKILL nextSkill = virtualPets[i]->Write_AllSkill() + randomSkill;
+						while (nextSkill->Selected == OWNED)
+						{
+							randomSkill = rand() % (virtualPets[i]->Get_ALLSkillCnt() - 1) + 1;//跳过第一个技能
+							nextSkill = virtualPets[i]->Write_AllSkill() + randomSkill;
+						}
+						int currentSkillCnt = virtualPets[i]->Get_GotSkillCnt();
+						PSKILL* newSkill = virtualPets[i]->Write_GotSkill(currentSkillCnt);
+						*newSkill = nextSkill;
+						(*newSkill)->Selected = OWNED;
+						++currentSkillCnt;
+						virtualPets[i]->Input_GotSkillCnt(currentSkillCnt);
+					}
+				}
+				virtualPets[i]->Input_Hp(currentHP);
+				virtualPets[i]->Input_Atk(currentAtk);
+				virtualPets[i]->Input_AtkI(currentAtkI);
+				virtualPets[i]->Input_Def(currentDef);
+			}
+
+			dataSend += "virtualpets_info:|" + username + "|";
+			dataSend += to_string(VIRTUAL_PETS_NUM);
+			dataSend += "|";
+			for (int j = 0; j < VIRTUAL_PETS_NUM; ++j)
+			{
+				dataSend += virtualPets[j]->Get_Name();
+				dataSend += "|";
+				dataSend += virtualPets[j]->Get_Nick();
+				dataSend += "|";
+				POKEMONKIND pkind = virtualPets[j]->Get_Kind();
+				switch (pkind)
+				{
+				case POWER:
+					dataSend += "力量型";
+					break;
+				case TANK:
+					dataSend += "肉盾型";
+					break;
+				case DEFENSIVE:
+					dataSend += "防御型";
+					break;
+				case AGILE:
+					dataSend += "敏捷型";
+					break;
+				}
+				dataSend += "|";
+				WUXINGTYPE thetype = virtualPets[j]->Get_Type();
+				switch (thetype)
+				{
+				case JIN:
+					dataSend += "金";
+					break;
+				case MU:
+					dataSend += "木";
+					break;
+				case SHUI:
+					dataSend += "水";
+					break;
+				case HUO:
+					dataSend += "火";
+					break;
+				case TU:
+					dataSend += "土";
+					break;
+				}
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Rank());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Order());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Exp());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Hp());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Atk());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Def());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_AtkI());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Accuracy());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_Evasiveness());
+				dataSend += "|";
+				dataSend += to_string(virtualPets[j]->Get_GotSkillCnt());
+				dataSend += "|";
 			}
 		}
 
