@@ -1013,6 +1013,239 @@ int main(int argc, char* argv[])
 				dataSend += "|";
 			}
 		}
+		else if (thePart == "FighterA_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int thePetOrder = atoi(dataPart);
+			int i;
+			for (i = 0; i < USERMAX && (playUsers[i] == nullptr || playUsers[i]->Get_UserName() != username); ++i)
+			{
+			}
+			if (i == USERMAX)
+				cout << "用户" << username << "未登录！" << endl;
+			else
+			{
+				currentUser = i;
+				dataSend += "FighterA_info:|" + username + "|";
+				dataSend += playUsers[currentUser]->ReadPets(thePetOrder)->Get_Name();
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Hp());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Atk());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Def());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_AtkI());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Accuracy());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Evasiveness());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Rank());
+				dataSend += "|";
+				POKEMONKIND pkind = playUsers[currentUser]->ReadPets(thePetOrder)->Get_Kind();
+				switch (pkind)
+				{
+				case POWER:
+					dataSend += "力量型";
+					break;
+				case TANK:
+					dataSend += "肉盾型";
+					break;
+				case DEFENSIVE:
+					dataSend += "防御型";
+					break;
+				case AGILE:
+					dataSend += "敏捷型";
+					break;
+				}
+				dataSend += "|";
+				WUXINGTYPE thetype = playUsers[currentUser]->ReadPets(thePetOrder)->Get_Type();
+				switch (thetype)
+				{
+				case JIN:
+					dataSend += "金";
+					break;
+				case MU:
+					dataSend += "木";
+					break;
+				case SHUI:
+					dataSend += "水";
+					break;
+				case HUO:
+					dataSend += "火";
+					break;
+				case TU:
+					dataSend += "土";
+					break;
+				}
+				dataSend += "|";
+				dataSend += playUsers[currentUser]->ReadPets(thePetOrder)->Get_Nick();
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Order());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Exp());
+				dataSend += "|";				
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_GotSkillCnt());
+				dataSend += "|";
+				for (int i = 0; i < playUsers[currentUser]->ReadPets(thePetOrder)->Get_GotSkillCnt(); ++i)
+				{
+					dataSend += playUsers[currentUser]->ReadPets(thePetOrder)->Access_GotSkill(i)->SkillName;
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Access_GotSkill(i)->SkillKind);
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Access_GotSkill(i)->SkillPower);
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Access_GotSkill(i)->SkillHit);
+					dataSend += "|";
+					dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Access_GotSkill(i)->SkillRank);
+					dataSend += "|";
+				}
+			}
+		}
+		else if (thePart == "FighterB_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int thePetOrder = atoi(dataPart);
+			dataSend += "FighterB_info:|" + username + "|";
+			dataSend += virtualPets[thePetOrder]->Get_Name();
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Hp());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Atk());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Def());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_AtkI());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Accuracy());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Evasiveness());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Rank());
+			dataSend += "|";
+			POKEMONKIND pkind = virtualPets[thePetOrder]->Get_Kind();
+			switch (pkind)
+			{
+			case POWER:
+				dataSend += "力量型";
+				break;
+			case TANK:
+				dataSend += "肉盾型";
+				break;
+			case DEFENSIVE:
+				dataSend += "防御型";
+				break;
+			case AGILE:
+				dataSend += "敏捷型";
+				break;
+			}
+			dataSend += "|";
+			WUXINGTYPE thetype = virtualPets[thePetOrder]->Get_Type();
+			switch (thetype)
+			{
+			case JIN:
+				dataSend += "金";
+				break;
+			case MU:
+				dataSend += "木";
+				break;
+			case SHUI:
+				dataSend += "水";
+				break;
+			case HUO:
+				dataSend += "火";
+				break;
+			case TU:
+				dataSend += "土";
+				break;
+			}
+			dataSend += "|";
+			dataSend += virtualPets[thePetOrder]->Get_Nick();
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Order());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_Exp());
+			dataSend += "|";
+			dataSend += to_string(virtualPets[thePetOrder]->Get_GotSkillCnt());
+			dataSend += "|";
+			for (int i = 0; i < virtualPets[thePetOrder]->Get_GotSkillCnt(); ++i)
+			{
+				dataSend += virtualPets[thePetOrder]->Access_GotSkill(i)->SkillName;
+				dataSend += "|";
+				dataSend += to_string(virtualPets[thePetOrder]->Access_GotSkill(i)->SkillKind);
+				dataSend += "|";
+				dataSend += to_string(virtualPets[thePetOrder]->Access_GotSkill(i)->SkillPower);
+				dataSend += "|";
+				dataSend += to_string(virtualPets[thePetOrder]->Access_GotSkill(i)->SkillHit);
+				dataSend += "|";
+				dataSend += to_string(virtualPets[thePetOrder]->Access_GotSkill(i)->SkillRank);
+				dataSend += "|";
+			}
+		}
+		else if (thePart == "UPFight_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int thePetOrder = atoi(dataPart);
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int theEXP = atoi(dataPart);
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int win;
+			thePart = dataPart;
+			if (thePart == "win")
+				win = 1;
+			else if (thePart == "lose")
+				win = 0;
+			cout << thePart << endl;//////////////////
+			int i;
+			for (i = 0; i < USERMAX && (playUsers[i] == nullptr || playUsers[i]->Get_UserName() != username); ++i)
+			{
+			}
+			if (i == USERMAX)
+				cout << "用户" << username << "未登录！" << endl;
+			else
+			{
+				currentUser = i;
+				int oldRank= playUsers[currentUser]->ReadPets(thePetOrder)->Get_Rank();
+				playUsers[currentUser]->WritePets(thePetOrder)->Input_Exp(theEXP);
+				playUsers[currentUser]->WritePets(thePetOrder)->RefershRank();
+				int nowWintime = playUsers[currentUser]->Get_WinTime();
+				nowWintime += win;
+				playUsers[currentUser]->Input_WinTime(nowWintime);
+				int nowFightTime = playUsers[currentUser]->Get_FightTime();
+				++nowFightTime;
+				playUsers[currentUser]->Input_FightTime(nowFightTime);
+				dataSend += "UPFight_info:|" + username + "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Rank());
+				dataSend += "|";
+				string upgrade_info;
+				if (oldRank < playUsers[currentUser]->ReadPets(thePetOrder)->Get_Rank())//升级
+				{
+					upgrade_info = playUsers[currentUser]->WritePets(thePetOrder)->Upgrade();
+				}
+				else
+					upgrade_info = "加油，离升级只有一步之遥了！|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Hp());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Atk());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_Def());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_AtkI());
+				dataSend += "|";
+				dataSend += to_string(playUsers[currentUser]->ReadPets(thePetOrder)->Get_GotSkillCnt());
+				dataSend += "|";
+				dataSend += playUsers[currentUser]->ReadPets(thePetOrder)->Get_Name();
+				dataSend += "|";
+				dataSend += upgrade_info;
+			}
+		}
 
 		//string dataSend;
 		//getline(cin, dataSend);

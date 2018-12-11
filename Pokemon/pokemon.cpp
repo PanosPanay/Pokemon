@@ -350,8 +350,10 @@ void POKEMON::PrintPetInfo()
 	cout << endl;
 }
 
-void POKEMON::Upgrade()
+string POKEMON::Upgrade()
 {
+	string noStr = "pokemon";
+	return noStr;
 }
 
 /*void POKEMON::SkillAll()
@@ -459,22 +461,26 @@ GYARADOS::GYARADOS(const GYARADOS & PET) : POWERPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void GYARADOS::Upgrade()
+string GYARADOS::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info += currentName + "升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	//if (currentRank >= 6)
 	if (currentRank == 6)
 	{
 		Input_Name("暴鲤龙Gyarados");
-		cout << "进化为" << "暴鲤龙Gyarados !" << endl;
+		info += "进化为暴鲤龙Gyarados！\n";
+		//cout << "进化为" << "暴鲤龙Gyarados !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("超级暴鲤龙Super Gyarados");
-		cout << "进化为" << "超级暴鲤龙Super Gyarados !" << endl;
+		info += "进化为超级暴鲤龙Super Gyarados!\n";
+		//cout << "进化为" << "超级暴鲤龙Super Gyarados !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -524,8 +530,11 @@ void GYARADOS::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	cout << info << endl;///////////////
+	return info;
 }
 
 void GYARADOS::SkillAll()
@@ -613,21 +622,25 @@ HAPPINY::HAPPINY(const HAPPINY & PET) : TANKPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void HAPPINY::Upgrade()
+string HAPPINY::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info += currentName + "升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("吉利蛋Chansey");
-		cout << "进化为" << "吉利蛋Chansey !" << endl;
+		info += "进化为吉利蛋Chansey!\n";
+		//cout << "进化为" << "吉利蛋Chansey !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("幸福蛋Blissey");
-		cout << "进化为" << "幸福蛋Blissey !" << endl;
+		info += "进化为幸福蛋Blissey!\n";
+		//cout << "进化为" << "幸福蛋Blissey !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -675,8 +688,10 @@ void HAPPINY::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void HAPPINY::SkillAll()
@@ -764,21 +779,25 @@ SQUIRTLE::SQUIRTLE(const SQUIRTLE & PET) : DEFENSIVEPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void SQUIRTLE::Upgrade()
+string SQUIRTLE::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("卡咪龟Wartortle");
-		cout << "进化为" << "卡咪龟Wartortle !" << endl;
+		info += "进化为卡咪龟Wartortle\n";
+		//cout << "进化为" << "卡咪龟Wartortle !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("水箭龟Blastoise");
-		cout << "进化为" << "水箭龟Blastoise !" << endl;
+		info += "进化为水箭龟Blastoise\n";
+		//cout << "进化为" << "水箭龟Blastoise !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -826,8 +845,10 @@ void SQUIRTLE::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void SQUIRTLE::SkillAll()
@@ -915,21 +936,25 @@ MEWTWO::MEWTWO(const MEWTWO & PET) : AGILEPET(PET)
 	//Input_GotSkillCnt(1);
 }
 
-void MEWTWO::Upgrade()
+string MEWTWO::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("超梦Mewtwo");
-		cout << "进化为" << "超梦Mewtwo !" << endl;
+		info += "进化为超梦Mewtwo\n";
+		//cout << "进化为" << "超梦Mewtwo !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("超级超梦y MewtwoY");
-		cout << "进化为" << "超级超梦y MewtwoY !" << endl;
+		info += "进化为超级超梦y MewtwoY\n";
+		//cout << "进化为" << "超级超梦y MewtwoY !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -977,8 +1002,10 @@ void MEWTWO::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void MEWTWO::SkillAll()
@@ -1066,21 +1093,25 @@ INCINEROAR::INCINEROAR(const INCINEROAR & PET) : POWERPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void INCINEROAR::Upgrade()
+string INCINEROAR::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("炎热喵Torracat");
-		cout << "进化为" << "炎热喵Torracat !" << endl;
+		info += "进化为炎热喵Torracat\n";
+		//cout << "进化为" << "炎热喵Torracat !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("炽焰咆啸虎Incineroar");
-		cout << "进化为" << "炽焰咆啸虎Incineroar !" << endl;
+		info += "进化为炽焰咆啸虎Incineroar\n";
+		//cout << "进化为" << "炽焰咆啸虎Incineroar !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -1128,8 +1159,10 @@ void INCINEROAR::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void INCINEROAR::SkillAll()
@@ -1217,16 +1250,19 @@ WOBBUFFET::WOBBUFFET(const WOBBUFFET & PET) : TANKPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void WOBBUFFET::Upgrade()
+string WOBBUFFET::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 8)
 	{
 		Input_Name("果然翁Wobbuffet");
-		cout << "进化为" << "果然翁Wobbuffet !" << endl;
+		info += "进化为果然翁Wobbuffet\n";
+		//cout << "进化为" << "果然翁Wobbuffet !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -1274,8 +1310,10 @@ void WOBBUFFET::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void WOBBUFFET::SkillAll()
@@ -1363,21 +1401,25 @@ STEELIX::STEELIX(const STEELIX & PET) : DEFENSIVEPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void STEELIX::Upgrade()
+string STEELIX::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("大钢蛇Steelix");
-		cout << "进化为" << "大钢蛇Steelix !" << endl;
+		info += "进化为大钢蛇Steelix\n";
+		//cout << "进化为" << "大钢蛇Steelix !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("超级大钢蛇Super Steelix");
-		cout << "进化为" << "超级大钢蛇Super Steelix !" << endl;
+		info += "进化为超级大钢蛇Super_Steelix\n";
+		//cout << "进化为" << "超级大钢蛇Super Steelix !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -1425,8 +1467,10 @@ void STEELIX::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void STEELIX::SkillAll()
@@ -1514,21 +1558,25 @@ ALAKAZAM::ALAKAZAM(const ALAKAZAM & PET) : AGILEPET(PET)
 	//SkillAll();//存入所有技能
 }
 
-void ALAKAZAM::Upgrade()
+string  ALAKAZAM::Upgrade()
 {
+	string info;
 	string currentName = Get_Name();
 	//srand((unsigned)time(NULL));
 	int currentRank = Get_Rank();
-	cout << currentName << "升至" << currentRank << "级：" << endl;
+	info = currentName+"升至" + to_string(currentRank) + "级！";
+	//cout << currentName << "升至" << currentRank << "级：" << endl;
 	if (currentRank == 6)
 	{
 		Input_Name("勇基拉Kadabra");
-		cout << "进化为" << "勇基拉Kadabra !" << endl;
+		info += "进化为勇基拉Kadabra\n";
+		//cout << "进化为" << "勇基拉Kadabra !" << endl;
 	}
 	else if (currentRank == 11)
 	{
 		Input_Name("胡地Alakazam");
-		cout << "进化为" << "胡地Alakazam !" << endl;
+		info += "进化为胡地Alakazam\n";
+		//cout << "进化为" << "胡地Alakazam !" << endl;
 	}
 	double currentHp = Get_Hp();
 	int currentAtkI = Get_AtkI();
@@ -1576,8 +1624,10 @@ void ALAKAZAM::Upgrade()
 		(*newSkill)->Selected = OWNED;
 		++learnSkillCnt;
 		Input_GotSkillCnt(learnSkillCnt);
-		cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		//cout << "获得新技能：" << (*newSkill)->SkillName << endl;
+		info += "获得新技能：" + (*newSkill)->SkillName + "|";
 	}
+	return info;
 }
 
 void ALAKAZAM::SkillAll()

@@ -121,7 +121,7 @@ public:
 	void RefershRank();								//用当前的精灵经验值更新等级信息
 	void PrintPetInfo();							//打印宠物信息
 
-	virtual void Upgrade();							//升级函数（虚函数）
+	virtual string Upgrade();							//升级函数（虚函数）
 	//virtual void SkillAll();						//存入该类小精灵的所有技能
 };
 
@@ -179,7 +179,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	GYARADOS(const GYARADOS& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //小福蛋Happiny->吉利蛋Chansey->幸福蛋Blissey,肉盾型
@@ -190,7 +190,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	HAPPINY(const HAPPINY& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //杰尼龟Squirtle(1-5级）->卡咪龟Wartortle(6-10级）->水箭龟Blastoise(11-15级），高防御
@@ -203,7 +203,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	SQUIRTLE(const SQUIRTLE& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //超梦xMewtwoX->超梦Mewtwo->超级超梦yMewtwoY，敏捷型
@@ -214,7 +214,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	MEWTWO(const MEWTWO& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //火斑喵Litten->炎热喵Torracat->炽焰咆啸虎Incineroar，力量型
@@ -225,7 +225,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	INCINEROAR(const INCINEROAR& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 
@@ -237,7 +237,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	WOBBUFFET(const WOBBUFFET& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //大岩蛇Onix->大钢蛇Steelix->超级大钢蛇，防御型
@@ -248,7 +248,7 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	STEELIX(const STEELIX& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
 //凯西Abra->勇基拉Kadabra->胡地Alakazam，敏捷型
@@ -259,6 +259,6 @@ public:
 		int xdef, double xhp, int xatki, double xaccuracy, double xevasiveness,
 		WUXINGTYPE xtype, int xskillcnt, string xnick, int xallSkillcnt);*/
 	ALAKAZAM(const ALAKAZAM& PET);
-	virtual void Upgrade();//升级函数（虚函数）
+	virtual string Upgrade();//升级函数（虚函数）
 	void SkillAll();//存入该类小精灵的所有技能
 };
