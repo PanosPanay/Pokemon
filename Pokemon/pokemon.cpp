@@ -64,7 +64,7 @@ POKEMON::POKEMON(POKEMONKIND xkind, string xname, int xrank, int xexp, int xatk,
 POKEMON::POKEMON(const POKEMON & PET)
 {
 	totalOrder = PET.Get_totalOrder();
-	totalOrder = PET.Get_Order();
+	PetOrder = PET.Get_Order();
 	Kind = PET.Get_Kind();
 	Name = PET.Get_Name();
 	Rank = PET.Get_Rank();
@@ -79,14 +79,20 @@ POKEMON::POKEMON(const POKEMON & PET)
 	AllSkillCnt = PET.Get_ALLSkillCnt();
 	GotSkillCnt = PET.Get_GotSkillCnt();
 	Nick = PET.Get_Nick();
+	int j = 0;
 	for (int i = 0; i < AllSkillCnt; ++i)
 	{
 		AllSkills[i] = *(PET.Access_AllSkill()+i);
+		if (AllSkills[i].Selected == OWNED)
+		{
+			GotSkills[j] = &AllSkills[i];
+			++j;
+		}
 	}
-	for (int i = 0; i < GotSkillCnt; ++i)
-	{
-		GotSkills[i] = PET.Access_GotSkill(i);
-	}
+	//for (int i = 0; i < GotSkillCnt; ++i)
+	//{
+	//	GotSkills[i] = PET.Access_GotSkill(i);
+	//}
 }
 
 POKEMON::~POKEMON()

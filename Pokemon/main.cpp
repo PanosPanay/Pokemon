@@ -365,7 +365,7 @@ int GetPetsCnt()//得到宠物总数
 	}
 
 	//取出用户信息
-	sql = "SELECT * FROM PET ;";
+	sql = "SELECT TOTALORDER FROM PET ORDER BY TOTALORDER DESC;";
 	char** pResult;
 	int nRow;
 	int nCol;
@@ -377,10 +377,14 @@ int GetPetsCnt()//得到宠物总数
 		sqlite3_free(zErrMsg);
 		exit(0);
 	}
-	nowPetsCnt = nRow;
+	if (nRow == 0)
+		nowPetsCnt = 0;
+	else
+		nowPetsCnt = atoi(pResult[1]);
 	sqlite3_close(db);
-	cout <<"当前系统送出精灵总数："<< nRow << endl;////////////
-	return nRow;
+	cout <<"当前系统送出精灵总数："<< nowPetsCnt+1 << endl;////////////
+	//return nRow;
+	return nowPetsCnt+1;
 }
 
 
@@ -1192,7 +1196,11 @@ int main(int argc, char* argv[])
 			dataPart = strtok_s(NULL, split, &nextToken);
 			username = dataPart;
 			dataPart = strtok_s(NULL, split, &nextToken);
-			int thePetOrder = atoi(dataPart);
+			int fightMode = atoi(dataPart);//战斗模式，0为升级赛，1为决斗赛
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int thePetOrder = atoi(dataPart);//出战精灵在当前用户表中的序号
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int virtualPetOrder = atoi(dataPart);//应战精灵在虚拟精灵表中的序号
 			dataPart = strtok_s(NULL, split, &nextToken);
 			int theEXP = atoi(dataPart);
 			dataPart = strtok_s(NULL, split, &nextToken);
@@ -1244,6 +1252,126 @@ int main(int argc, char* argv[])
 				dataSend += playUsers[currentUser]->ReadPets(thePetOrder)->Get_Name();
 				dataSend += "|";
 				dataSend += upgrade_info;
+
+				if (fightMode == 1)//决斗赛
+				{
+					if (win == 0)//失败，送出精灵
+					{
+						int givePetsNum = 3;
+						if (playUsers[currentUser]->Get_PetNum() < givePetsNum)
+						{
+							givePetsNum = playUsers[currentUser]->Get_PetNum();
+						}
+						int petChoose[3];//三只让用户挑选的精灵在用户精灵表中的序号
+						for (int j = 0; j < givePetsNum; ++j)
+						{
+							petChoose[j] = rand() % (playUsers[currentUser]->Get_PetNum());
+							int k;
+							int flag = 0;
+							while (flag == 0)
+							{
+								for (k = 0; k < j && petChoose[k] != petChoose[j]; ++k)
+								{
+
+								}
+								if (k < j)//重复，重新随机一只
+								{
+									petChoose[j] = rand() % (playUsers[currentUser]->Get_PetNum());
+								}
+								else
+									flag = 1;//退出循环
+							}							
+						}
+						dataSend += to_string(givePetsNum);//待选择被送出精灵数
+						dataSend += "|";
+						for (int j = 0; j < givePetsNum; ++j)
+						{
+							dataSend += to_string(petChoose[j]);//该待选择被送出精灵在用户精灵表中的序号
+							dataSend += "|";
+							dataSend += to_string(playUsers[currentUser]->ReadPets(petChoose[j])->Get_Order());//用于获得是哪种具体的精灵，用于确定图片
+							dataSend += "|";
+							dataSend += playUsers[currentUser]->ReadPets(petChoose[j])->Get_Name();
+							dataSend += "|";
+							dataSend += to_string(playUsers[currentUser]->ReadPets(petChoose[j])->Get_Rank());
+							dataSend += "|";
+						}
+					}
+					else//赢得该战胜的精灵（虚拟列表中）
+					{
+						int currentPetsCnt = playUsers[currentUser]->Get_PetNum();
+						POKEMON *thePetPtr=playUsers[currentUser]->WritePets(currentPetsCnt);
+						(*thePetPtr) = *virtualPets[virtualPetOrder];
+						++currentPetsCnt;
+						playUsers[currentUser]->Input_PetNum(currentPetsCnt);
+						thePetPtr->Input_totalOrder(petsCnt);
+						++petsCnt;
+						//直接在客户端输出获得精灵即可
+					}
+				}
+			}
+		}
+		else if (thePart == "deletepet_info:")
+		{
+			dataPart = strtok_s(NULL, split, &nextToken);
+			username = dataPart;
+			dataPart = strtok_s(NULL, split, &nextToken);
+			int thePetOrder = atoi(dataPart);
+			int i;
+			for (i = 0; i < USERMAX && (playUsers[i] == nullptr || playUsers[i]->Get_UserName() != username); ++i)
+			{
+			}
+			if (i == USERMAX)
+				cout << "用户" << username << "未登录！" << endl;
+			else
+			{
+				currentUser = i;
+				delete playUsers[currentUser]->WritePets(thePetOrder);
+				int currentPetNum = playUsers[currentUser]->Get_PetNum();
+				for (int i = thePetOrder; i < currentPetNum-1; ++i)//抛弃的宠物之后的精灵前移
+				{
+					POKEMON *thePetPtr = playUsers[currentUser]->WritePets(i);
+					POKEMON *nextPtr = playUsers[currentUser]->WritePets(i + 1);
+					thePetPtr = nextPtr;
+				}
+				--currentPetNum;
+				playUsers[currentUser]->Input_PetNum(currentPetNum);
+				if (currentPetNum == 0)//用户没有精灵了，随机发放一只初始精灵
+				{
+					POKEMON *thePetPtr = playUsers[currentUser]->WritePets(currentPetNum);
+					int random = rand() % 8;
+					switch (random)
+					{
+					case 0:
+						thePetPtr = new GYARADOS;
+						break;
+					case 1:
+						thePetPtr = new HAPPINY;
+						break;
+					case 2:
+						thePetPtr = new SQUIRTLE;
+						break;
+					case 3:
+						thePetPtr = new MEWTWO;
+						break;
+					case 4:
+						thePetPtr = new INCINEROAR;
+						break;
+					case 5:
+						thePetPtr = new WOBBUFFET;
+						break;
+					case 6:
+						thePetPtr = new STEELIX;
+						break;
+					case 7:
+						thePetPtr = new ALAKAZAM;
+					default:
+						break;
+					}
+					thePetPtr->Input_totalOrder(petsCnt);
+					++petsCnt;
+					playUsers[currentUser]->Input_PetNum(1);
+				}
+				dataSend += "deletepet_info:|" + username + "|" + "ok|";
 			}
 		}
 
